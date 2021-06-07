@@ -1,0 +1,19 @@
+<% if payment_method.errors.any? %>
+  <p>Foram encontrados <%= payment_method.errors.count %> erro(s):</p>
+  <ul>
+    <% payment_method.errors.full_messages.each do |error|%>
+      <li><%= error %></li>
+    <% end %>
+  </ul>
+<% end %>
+<%= form_with model: payment_method do |f| %>
+  <%= f.label :name, 'Nome'%>
+  <%= f.text_field :name %>
+  <%= f.label :charging_fee, 'Taxa de cobrança'%>
+  <%= f.number_field :charging_fee %>
+  <%= f.label :maximum_charge, 'Cobrança máxima'%>
+  <%= f.number_field :maximum_charge %>
+  <%= f.label :pay_type, 'Tipo' %>
+  <%= f.text_field :pay_type %>
+  <%= f.submit button_text %>
+<% end %>
