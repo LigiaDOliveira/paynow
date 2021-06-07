@@ -1,0 +1,16 @@
+current directory: /home/ligiadol/TreinaDev/Treinamento1/workspace/paynow/vendor/bundle/ruby/3.0.0/gems/racc-1.5.2/ext/racc/cparse
+/home/ligiadol/.rvm/rubies/ruby-3.0.1/bin/ruby -I /home/ligiadol/.rvm/rubies/ruby-3.0.1/lib/ruby/3.0.0 -r ./siteconf20210606-8126-8hxrts.rb extconf.rb
+checking for rb_ary_subseq()... yes
+creating Makefile
+
+current directory: /home/ligiadol/TreinaDev/Treinamento1/workspace/paynow/vendor/bundle/ruby/3.0.0/gems/racc-1.5.2/ext/racc/cparse
+make DESTDIR\= clean
+
+current directory: /home/ligiadol/TreinaDev/Treinamento1/workspace/paynow/vendor/bundle/ruby/3.0.0/gems/racc-1.5.2/ext/racc/cparse
+make DESTDIR\=
+compiling cparse.c
+linking shared-object racc/cparse.so
+
+current directory: /home/ligiadol/TreinaDev/Treinamento1/workspace/paynow/vendor/bundle/ruby/3.0.0/gems/racc-1.5.2/ext/racc/cparse
+make DESTDIR\= install
+/usr/bin/install -m 0755 cparse.so ./.gem.20210606-8126-jhodf4/racc
