@@ -8,3 +8,4 @@
 </dl>
 <%= link_to 'Voltar', payment_methods_path %>
 <%= link_to 'Editar', edit_payment_method_path(@payment_method) %>
+<%= link_to 'Apagar', payment_method_path(@payment_method),method: :delete, data:{confirm: 'Você realmente deseja apagar este meio de pagamento?'} %>

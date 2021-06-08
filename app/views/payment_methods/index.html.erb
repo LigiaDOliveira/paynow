@@ -1,3 +1,4 @@
+<%= flash[:notice] %>
 <% unless @payment_methods.empty?%>
   <% @payment_methods.each do |method|%>
     <h2><%= image_tag method.icon %> <%=link_to method.name, method %></h2>

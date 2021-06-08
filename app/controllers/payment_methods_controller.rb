@@ -33,9 +33,17 @@ class PaymentMethodsController < ApplicationController
     end
   end
 
+  def destroy
+    @payment_method = PaymentMethod.find(params[:id])
+    @payment_method.destroy
+    redirect_to payment_methods_path, notice: 'Meio de pagamento apagado com sucesso'
+  end
+
   private
 
   def payment_method_params
-    params.require(:payment_method).permit(:name,:charging_fee,:maximum_charge,:pay_type,:icon)
+    params
+      .require(:payment_method)
+      .permit(:name,:charging_fee,:maximum_charge,:pay_type,:icon)
   end
 end
