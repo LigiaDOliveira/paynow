@@ -6,3 +6,5 @@
   <dd><%= number_to_currency @payment_method.maximum_charge,unit:'R$ ',separator:',',delimiter:'.' %></dd>
   <dt>Tipo <%= @payment_method.pay_type %></dd>
 </dl>
+<%= link_to 'Voltar', payment_methods_path %>
+<%= link_to 'Editar', edit_payment_method_path(@payment_method) %>

@@ -20,6 +20,19 @@ class PaymentMethodsController < ApplicationController
     end
   end
 
+  def edit
+    @payment_method = PaymentMethod.find(params[:id])
+  end
+
+  def update
+    @payment_method = PaymentMethod.find(params[:id])
+    if @payment_method.update(payment_method_params)
+      redirect_to @payment_method, notice: 'Meio de pagamento editado com sucesso'
+    else
+      render :edit
+    end
+  end
+
   private
 
   def payment_method_params
