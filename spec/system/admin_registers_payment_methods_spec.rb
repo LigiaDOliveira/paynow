@@ -10,6 +10,7 @@ describe 'Admin registers payment methods' do
     fill_in 'Taxa de cobrança', with: 10
     fill_in 'Cobrança máxima', with: 100
     fill_in 'Tipo', with: 'boleto'
+    attach_file 'Ícone', './spec/files/icon_boleto.png'
     click_on 'Enviar'
     expect(current_path).to eq(payment_methods_path)
 
@@ -17,6 +18,7 @@ describe 'Admin registers payment methods' do
     expect(page).to have_text('10%')
     expect(page).to have_text('R$ 100,00')
     expect(page).to have_text('Tipo boleto')
+    expect(page).to have_css("img[src*='icon_boleto.png']")
   end
 
   it 'and attributes cannot be blank' do

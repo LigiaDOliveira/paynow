@@ -9,6 +9,8 @@
 <%= form_with model: payment_method do |f| %>
   <%= f.label :name, 'Nome'%>
   <%= f.text_field :name %>
+  <%= f.label :icon, 'Ícone' %>
+  <%= f.file_field :icon %>
   <%= f.label :charging_fee, 'Taxa de cobrança'%>
   <%= f.number_field :charging_fee %>
   <%= f.label :maximum_charge, 'Cobrança máxima'%>
