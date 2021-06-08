@@ -1,0 +1,8 @@
+<h1><%= image_tag @payment_method.icon %> <%= @payment_method.name %></h1>
+<dl>
+  <dt>Taxa de cobrança</dt>
+  <dd><%= number_to_percentage @payment_method.charging_fee, precision:2, significant: true, separator: ',', delimiter:'.' %></dd>
+  <dt>Taxa máxima cobrável</dt>
+  <dd><%= number_to_currency @payment_method.maximum_charge,unit:'R$ ',separator:',',delimiter:'.' %></dd>
+  <dt>Tipo <%= @payment_method.pay_type %></dd>
+</dl>

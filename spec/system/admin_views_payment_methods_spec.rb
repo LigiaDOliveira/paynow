@@ -41,4 +41,20 @@ describe 'Admin views payment methods' do
     click_on 'Meios de pagamento'
     expect(page).to have_text('Nenhum meio de pagamento cadastrado')
   end
+
+  it 'and view details of a payment method' do
+    p1 = PaymentMethod.create!(name: 'Boleto bancário do banco laranja',
+                               charging_fee:10,
+                               maximum_charge: 100,
+                               pay_type: 'boleto')
+    p1.icon.attach(io: File.open('./spec/files/icon_boleto.png'), filename: 'icon_boleto.png')
+    visit root_path
+    click_on 'Meios de pagamento'
+    click_on 'Boleto bancário do banco laranja'
+    # expect(current_path).to eq(payment_method_path)
+    expect(page).to have_text('Boleto bancário do banco laranja')
+    expect(page).to have_text('10%')
+    expect(page).to have_text('R$ 100,00')
+    expect(page).to have_text('Tipo boleto')
+  end
 end

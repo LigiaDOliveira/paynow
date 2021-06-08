@@ -1,6 +1,6 @@
 <% unless @payment_methods.empty?%>
   <% @payment_methods.each do |method|%>
-    <h2><%= image_tag method.icon %> <%= method.name %></h2>
+    <h2><%= image_tag method.icon %> <%=link_to method.name, method %></h2>
     <ul><%= number_to_percentage method.charging_fee, precision:2, significant: true, separator: ',', delimiter:'.' %></ul>
     <ul><%= number_to_currency method.maximum_charge,unit:'R$ ',separator:',',delimiter:'.' %></ul>
     <ul>Tipo <%= method.pay_type %></ul>
