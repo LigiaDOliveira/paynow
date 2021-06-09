@@ -8,7 +8,18 @@ pt-BR:
     attributes:
       admin_paynow:
         password: Senha
-        password_confirmation: Confirmação de Senha
+        password_confirmation: Confirmação de senha
+    errors:
+      models:
+        admin_paynow:
+          attributes:
+            email:
+              blank: 'não pode ficar em branco'
+              taken: já está em uso
+            password:
+              blank: 'não pode ficar em branco'
+            password_confirmation:
+              confirmation: precisa ser igual à senha
   devise:
     registrations:
       new:
