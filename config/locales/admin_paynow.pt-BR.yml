@@ -1,0 +1,21 @@
+---
+pt-BR:
+  activerecord:
+    models:
+      admin_paynow:
+        one: Administrador(a)
+        other: Administradores(as)
+    attributes:
+      admin_paynow:
+        password: Senha
+        password_confirmation: Confirmação de Senha
+  devise:
+    registrations:
+      new:
+        submit: Criar conta
+        minimum_characters: 'No mínimo %{minimum_password_length} caracteres'
+    shared:
+      _links:
+        login: Login
+        signup: Criar conta
+    

@@ -11,6 +11,16 @@
   </head>
 
   <body>
+    <nav>
+      <% if admin_paynow_signed_in? %>
+        <%= current_admin_paynow.email %>
+        <%= link_to 'Sair', destroy_admin_paynow_session_path %>
+      <% else %>
+        <%= link_to 'Registrar-me', new_admin_paynow_registration_path %>
+      <% end %>
+    </nav>
+    <div><%= notice if notice %></div>
+    <div><%= alert if alert %></div>
     <%= yield %>
   </body>
 </html>
