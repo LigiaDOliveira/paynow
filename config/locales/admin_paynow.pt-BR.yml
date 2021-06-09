@@ -9,6 +9,7 @@ pt-BR:
       admin_paynow:
         password: Senha
         password_confirmation: Confirmação de senha
+        remember_me: 'Lembrar conta'
     errors:
       models:
         admin_paynow:
@@ -26,7 +27,8 @@ pt-BR:
         submit: Criar conta
         minimum_characters: 'No mínimo %{minimum_password_length} caracteres'
     shared:
-      _links:
-        login: Login
-        signup: Criar conta
+      links:
+        login: 'Login'
+        signup: 'Criar conta'
+        forgot_password: 'Esqueci minha senha'
     
