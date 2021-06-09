@@ -14,7 +14,7 @@
     <nav>
       <% if admin_paynow_signed_in? %>
         <%= current_admin_paynow.email %>
-        <%= link_to 'Sair', destroy_admin_paynow_session_path %>
+        <%= link_to 'Sair', destroy_admin_paynow_session_path, method: :delete %>
       <% else %>
         <%= link_to 'Registrar-me', new_admin_paynow_registration_path %>
         <%= link_to 'Entrar', new_admin_paynow_session_path %>

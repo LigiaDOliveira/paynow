@@ -113,6 +113,18 @@ describe 'Paynow admin account management' do
       expect(page).to_not have_link('Meios de pagamento')
       expect(page).to_not have_link('Sair')
     end
+  end
 
+  context 'logout' do
+    it 'successfully' do
+      admin = AdminPaynow.create!(email: 'adm@paynow.com.br',password: '123456')
+      login_as admin, scope: :admin_paynow
+      visit root_path
+      click_on 'Sair'
+      expect(page).to_not have_text('adm@paynow.com.br')
+      expect(page).to_not have_link('Sair')
+      expect(page).to have_link('Registrar-me')
+      expect(page).to have_link('Entrar')
+    end
   end
 end
