@@ -1,4 +1,5 @@
 class PaymentMethodsController < ApplicationController
+  before_action :authenticate_admin_paynow!, only: %i[index]
   def index
     @payment_methods = PaymentMethod.all
   end
