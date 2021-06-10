@@ -21,7 +21,7 @@ pt-BR:
               blank: 'não pode ficar em branco'
             password_confirmation:
               confirmation: precisa ser igual à senha
-  devise:
+  admins_paynow:
     registrations:
       new:
         submit: Criar conta

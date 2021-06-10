@@ -107,7 +107,7 @@ describe 'Admin views payment methods' do
               pay_type: 'cartão de crédito')
       p3.icon.attach(io: File.open('./spec/files/icon_credit_card.png'), filename: 'icon_credit_card.png')
       visit payment_methods_path
-      save_page
+      
       expect(current_path).to eq(new_admin_paynow_session_path)
       expect(page).to_not have_text('Boleto bancário do banco laranja')
       expect(page).to_not have_text('10%')

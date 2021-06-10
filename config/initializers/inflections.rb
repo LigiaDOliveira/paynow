@@ -18,3 +18,7 @@
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.irregular 'admin_paynow', 'admins_paynow'
 end
+
+ActiveSupport::Inflector.inflections(:'pt-BR') do |inflect|
+  inflect.irregular 'admin_paynow', 'admins_paynow'
+end
