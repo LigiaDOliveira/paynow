@@ -35,7 +35,7 @@ describe 'Staff account management' do
       expect(page).to have_text('Rua dos Bobos, nº 0')
     end
   
-    xit 'and the email is invalid' do
+    it 'and the email is invalid' do
       visit root_path
       click_on 'Registrar-me'
       fill_in 'Email', with: 'adm@gmail.com'
@@ -47,7 +47,7 @@ describe 'Staff account management' do
       expect(page).to_not have_link('Sair')
     end
   
-    xit 'without valid field' do
+    it 'without valid field' do
       visit root_path
       click_on 'Registrar-me'
       fill_in 'Email', with: ''
@@ -61,7 +61,7 @@ describe 'Staff account management' do
       expect(page).to_not have_link('Sair')
     end
   
-    xit 'password does not match confirmation' do
+    it 'password does not match confirmation' do
       visit root_path
       click_on 'Registrar-me'
       fill_in 'Email', with: 'adm@paynow.com.br'
@@ -75,7 +75,7 @@ describe 'Staff account management' do
       expect(page).to_not have_link('Sair')
     end
   
-    xit 'with email not unique' do
+    it 'with email not unique' do
       adm = Staff.create!(email: 'adm@codeplay.com.br',password: '123456')
       visit root_path
       click_on 'Registrar-me'
@@ -100,7 +100,6 @@ describe 'Staff account management' do
       fill_in 'Senha', with: '123456'
       fill_in 'Confirmação de senha', with: '123456'
       click_on 'Criar conta'
-      save_page
       expect(page).to have_text('Login efetuado com sucesso')
       expect(page).to have_text('regular@codeplay.com.br')
       expect(page).to have_text(/Token: ([A-Z]|[a-z]|[0-9]){20}/)
@@ -108,6 +107,64 @@ describe 'Staff account management' do
       expect(page).to have_link('Sair')
       expect(page).to_not have_link('Cadastrar empresa')
       expect(page).to have_link('Minha empresa')
+    end
+
+    it 'and the email is invalid' do
+      adm
+      visit root_path
+      click_on 'Registrar-me'
+      fill_in 'Email', with: 'regular@gmail.com'
+      fill_in 'Senha', with: '123456'
+      fill_in 'Confirmação de senha', with: '123456'
+      click_on 'Criar conta'
+      expect(page).to have_text('Email inválido')
+      expect(page).to have_link('Registrar-me')
+      expect(page).to_not have_link('Sair')
+    end
+
+    it 'without valid field' do
+      adm
+      visit root_path
+      click_on 'Registrar-me'
+      fill_in 'Email', with: ''
+      fill_in 'Senha', with: ''
+      fill_in 'Confirmação de senha', with: ''
+      click_on 'Criar conta'
+      expect(page).to_not have_text('Login efetuado com sucesso')
+      expect(page).to have_content('não pode ficar em branco', count: 2)
+      expect(page).to_not have_link('Gerenciar meios de pagamento')
+      expect(page).to have_link('Registrar-me')
+      expect(page).to_not have_link('Sair')
+    end
+
+    it 'password does not match confirmation' do
+      adm
+      visit root_path
+      click_on 'Registrar-me'
+      fill_in 'Email', with: 'adm@paynow.com.br'
+      fill_in 'Senha', with: '123456'
+      fill_in 'Confirmação de senha', with: ''
+      click_on 'Criar conta'
+      expect(page).to_not have_text('Login efetuado com sucesso')
+      expect(page).to have_content('Confirmação de senha precisa ser igual à senha')
+      expect(page).to_not have_link('Gerenciar meios de pagamento')
+      expect(page).to have_link('Registrar-me')
+      expect(page).to_not have_link('Sair')
+    end
+
+    it 'with email not unique' do
+      adm
+      visit root_path
+      click_on 'Registrar-me'
+      fill_in 'Email', with: 'adm@codeplay.com.br'
+      fill_in 'Senha', with: 'outras'
+      fill_in 'Confirmação de senha', with: 'outras'
+      click_on 'Criar conta'
+      expect(page).to_not have_text('Login efetuado com sucesso')
+      expect(page).to have_content('já está em uso')
+      expect(page).to_not have_link('Gerenciar meios de pagamento')
+      expect(page).to have_link('Registrar-me')
+      expect(page).to_not have_link('Sair')
     end
   end
 end
