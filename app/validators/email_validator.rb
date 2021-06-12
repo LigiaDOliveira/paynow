@@ -6,27 +6,20 @@ class EmailValidator < ActiveModel::EachValidator
       # We must check that value contains a domain, the domain has at least
       # one '.' and that value is an email address      
       r = @m.domain.present? && @m.domain.match('\.') && @m.address == value
-
-      # Update 2015-Mar-24
-      # the :tree method was private and is no longer available.
-      # t = m.__send__(:tree)
-      # We need to dig into treetop
-      # A valid domain must have dot_atom_text elements size > 1
-      # user@localhost is excluded
-      # treetop must respond to domain
-      # We exclude valid email values like <user@localhost.com>
-      # Hence we use m.__send__(tree).domain
-      # r &&= (t.domain.dot_atom_text.elements.size > 1)
     rescue   
       r = false
     end
     #record.errors.add(attribute, message: "is invalid") unless r
     if r 
-      record.errors.add(attribute, message: "inválido") unless validate_admin_paynow
+      record.errors.add(attribute, message: "inválido") if invalid_account
     end
   end
 
-  def validate_admin_paynow
-      @m.domain == 'paynow.com.br'
+  def invalid_account
+    invalid_domains.include? @m.domain
+  end
+
+  def invalid_domains
+    File.open('./app/validators/invalid_domain_names.txt').read.split("\n")
   end
 end

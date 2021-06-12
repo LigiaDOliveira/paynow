@@ -1,0 +1,34 @@
+---
+pt-BR:
+  activerecord:
+    models:
+      staff:
+        one: Representante
+        other: Representantes
+    attributes:
+      staff:
+        password: Senha
+        password_confirmation: Confirmação de senha
+        remember_me: 'Lembrar conta'
+    errors:
+      models:
+        staff:
+          attributes:
+            email:
+              blank: 'não pode ficar em branco'
+              taken: já está em uso
+            password:
+              blank: 'não pode ficar em branco'
+            password_confirmation:
+              confirmation: precisa ser igual à senha
+  staffs:
+    registrations:
+      new:
+        submit: Criar conta
+        minimum_characters: 'No mínimo %{minimum_password_length} caracteres'
+    shared:
+      links:
+        login: 'Login'
+        signup: 'Criar conta'
+        forgot_password: 'Esqueci minha senha'
+    

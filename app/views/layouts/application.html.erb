@@ -15,13 +15,21 @@
       <% if admin_paynow_signed_in? %>
         <%= current_admin_paynow.email %>
         <%= link_to 'Sair', destroy_admin_paynow_session_path, method: :delete %>
+      <% elsif staff_signed_in? %>
+        <%= current_staff.email %>
+        <%= link_to 'Sair', destroy_staff_session_path, method: :delete %>
       <% else %>
-        <%= link_to 'Registrar-me', new_admin_paynow_registration_path %>
-        <%= link_to 'Entrar', new_admin_paynow_session_path %>
+        <%= link_to 'Registrar-me', new_staff_registration_path %>
+        <%= link_to 'Entrar', new_staff_session_path %>
       <% end %>
     </nav>
     <div><%= notice if notice %></div>
     <div><%= alert if alert %></div>
+    <footer>
+      <% unless admin_paynow_signed_in?|staff_signed_in? %>
+        <%= link_to 'Portal Funcionário Paynow', new_admin_paynow_session_path %>
+      <% end %>
+    </footer>
     <%= yield %>
   </body>
 </html>
