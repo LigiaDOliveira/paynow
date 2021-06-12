@@ -6,7 +6,11 @@ class CompaniesController < ApplicationController
 
   def create
     @company = Company.new(company_params)
+    @staff_adm = current_staff
     if @company.save
+      @staff_adm.admin = true
+      @staff_adm.company = @company
+      @staff_adm.save!
       redirect_to @company
     else
       render :new
