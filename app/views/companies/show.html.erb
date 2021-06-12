@@ -1,0 +1,11 @@
+<h1><%= @company.corporate_name %></h1>
+<dl>
+  <dt>Email</dt>
+  <dd><%= @company.email %></dd>
+  <dt>CNPJ</dt>
+  <dd><%= @company.cnpj %></dd>
+  <dt>Endereço</dt>
+  <dd><%= @company.address %></dd>
+</dl>
+<%= link_to 'Voltar', root_path %>
+<%= link_to 'Editar', edit_company_path(@company) %>

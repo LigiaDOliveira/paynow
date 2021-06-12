@@ -2,3 +2,4 @@
 <p>Boas vindas à plataforma de pagamentos PayNow!</p>
 <%= link_to 'Meios de pagamento', payment_methods_path if admin_paynow_signed_in?%>
 <%= link_to 'Gerenciar meios de pagamento', '#' if staff_signed_in?%>
+<%= link_to 'Cadastrar empresa', new_company_path if staff_signed_in?%>
