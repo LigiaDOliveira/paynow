@@ -7,7 +7,9 @@ class Staff < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   def associate_company
-    self.company = find_company
+    comp = find_company
+    self.company = comp
+    self.token = comp.token unless comp.nil?
   end
 
   def find_company

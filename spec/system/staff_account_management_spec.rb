@@ -4,10 +4,11 @@ describe 'Staff account management' do
   let(:company){Company.create!(corporate_name: 'Codeplay',
                                 cnpj:'11.111.111/0001-00', 
                                 email:'email@codeplay.com.br',
-                                address: 'Rua dos Bobos, nº 0')}
+                                address: 'Rua dos Bobos, nº 0',
+                                token: 'abcdefghij0123456789')}
   let(:adm){Staff.create!(email: 'adm@codeplay.com.br',
                           password: '123456',
-                          admin: true, company: company)}
+                          admin: true, company: company, token: company.token)}
   
   context 'registration as admin' do
     it 'with email and password' do
@@ -99,8 +100,10 @@ describe 'Staff account management' do
       fill_in 'Senha', with: '123456'
       fill_in 'Confirmação de senha', with: '123456'
       click_on 'Criar conta'
+      save_page
       expect(page).to have_text('Login efetuado com sucesso')
       expect(page).to have_text('regular@codeplay.com.br')
+      expect(page).to have_text(/Token: ([A-Z]|[a-z]|[0-9]){20}/)
       expect(page).to_not have_link('Registrar-me')
       expect(page).to have_link('Sair')
       expect(page).to_not have_link('Cadastrar empresa')
