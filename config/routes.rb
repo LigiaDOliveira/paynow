@@ -4,5 +4,7 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resources :payment_methods
-  resources :companies
+  resources :companies do
+    post 'reset_token'
+  end
 end

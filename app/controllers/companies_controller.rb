@@ -24,6 +24,23 @@ class CompaniesController < ApplicationController
     @company = Company.find(params[:id])
   end
 
+  def reset_token
+    @staff = current_staff
+    @company = Company.find(params[:company_id])
+    if @staff.company == @company && @staff.admin?
+      @company_staff = @company.staffs
+      @company.token = generate_token
+      @company_staff.each do |staff|
+        staff.token = @company.token
+        staff.save!
+      end
+      @company.save!
+      redirect_to @company, notice: 'Token resetado com sucesso!'
+    else
+      redirect_to @company, error: 'Permissão negada'
+    end 
+  end
+
   private
   def company_params
     params

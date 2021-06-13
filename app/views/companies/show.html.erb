@@ -8,5 +8,6 @@
   <dt>Endereço</dt>
   <dd><%= @company.address %></dd>
 </dl>
+<%= link_to 'Resetar token da empresa', company_reset_token_path(@company), method: :post if current_staff.admin? %>
 <%= link_to 'Voltar', root_path %>
 <%= link_to 'Editar', edit_company_path(@company) %>
