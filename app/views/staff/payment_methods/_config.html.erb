@@ -1,0 +1,34 @@
+<% case payment_method.pay_type %>
+  <% when 'boleto' %>
+    <% boleto = payment_method.boletos.find{|boleto| boleto.company == current_staff.company}%>
+    <% if boleto %>
+      <h3>Configuração</h3>
+      <dl>
+        <dt>Código do banco</dt>
+        <dd><%= boleto.bank_code %></dd>
+        <dt>Agência</dt>
+        <dd><%= boleto.agency %></dd>
+        <dt>Conta</dt>
+        <dd><%= boleto.account %></dd>
+      </dl>
+      <%=  link_to 'Editar', edit_staff_payment_method_boleto_path(payment_method,boleto) %>
+      <%=  link_to 'Desabilitar', staff_payment_method_boleto_path(payment_method,boleto),method: :delete, data:{confirm: 'Você realmente deseja desabilitar este método de pagamento?'} %>
+    <% else %>
+      <%= link_to 'Configurar', new_staff_payment_method_boleto_path(payment_method) %>
+    <% end %>
+  <% when 'PIX' %>
+    <% pix = payment_method.pixes.find{|pix| pix.company == current_staff.company}%>
+    <% if pix %>
+      <h3>Configuração</h3>
+      <dl>
+        <dt>Chave PIX</dt>
+        <dd><%= pix.pix_key %></dd>
+        <dt>Código do banco</dt>
+        <dd><%= pix.bank_code %></dd>
+      </dl>
+      <%=  link_to 'Editar', [:edit,:staff,payment_method,pix] %>
+      <%=  link_to 'Desabilitar', [:staff,payment_method,pix], method: :delete, data:{confirm: 'Você realmente deseja desabilitar este método de pagamento?'} %>
+    <% else %>
+      <%= link_to 'Configurar', new_staff_payment_method_pix_path(payment_method) %>
+    <% end %>
+<% end %>

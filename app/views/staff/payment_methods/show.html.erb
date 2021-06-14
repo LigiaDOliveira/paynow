@@ -7,19 +7,5 @@
   <dd><%= number_to_currency @payment_method.maximum_charge,unit:'R$ ',separator:',',delimiter:'.' %></dd>
   <dt>Tipo <%= @payment_method.pay_type %></dd>
 </dl>
-<% boleto = @payment_method.boletos.find{|boleto| boleto.company == current_staff.company}%>
-<% if boleto %>
-  <h3>Configuração</h3>
-  <dl>
-    <dt>Código do banco</dt>
-    <dd><%= boleto.bank_code %></dd>
-    <dt>Agência</dt>
-    <dd><%= boleto.agency %></dd>
-    <dt>Conta</dt>
-    <dd><%= boleto.account %></dd>
-  </dl>
-  <%=  link_to 'Editar', edit_staff_payment_method_boleto_path(@payment_method,boleto) %>
-  <%=  link_to 'Desabilitar', staff_payment_method_boleto_path(@payment_method,boleto),method: :delete, data:{confirm: 'Você realmente deseja desabilitar este método de pagamento?'} %>
-<% else %>
-  <%= link_to 'Configurar', new_staff_payment_method_boleto_path(@payment_method) %>
-<% end %>
+
+<%= render 'config', payment_method: @payment_method %>

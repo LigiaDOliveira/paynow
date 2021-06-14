@@ -1,0 +1,15 @@
+<% if pix.errors.any? %>
+  <p>Foram encontrados <%= pix.errors.count %> erro(s):</p>
+  <ul>
+    <% pix.errors.full_messages.each do |error|%>
+      <li><%= error %></li>
+    <% end %>
+  </ul>
+<% end %>
+<%= form_with model: [:staff, :payment_method, pix] do |f| %>
+  <%= f.label :pix_key, 'Chave PIX'%>
+  <%= f.text_field :pix_key %>
+  <%= f.label :bank_code, 'Código do banco'%>
+  <%= f.text_field :bank_code %>
+  <%= f.submit button_text %>
+<% end %>
