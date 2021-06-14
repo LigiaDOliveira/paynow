@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   namespace :staff do
     resources :payment_methods, only: %i[index show] do
-      resources :boletos, only: %i[new create]
+      resources :boletos, only: %i[new create edit update destroy]
     end
   end
 

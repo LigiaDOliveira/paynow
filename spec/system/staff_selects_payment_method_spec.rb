@@ -35,6 +35,8 @@ describe 'Staff manages payment methods' do
                                pay_type: 'cartão de crédito')
     p3.icon.attach(io: File.open('./spec/files/icon_credit_card.png'), filename: 'icon_credit_card.png')
   end
+  let(:boleto){Boleto.create!(bank_code: '123', agency: '4321', account: '99999999',
+                              company: company, payment_method: pm1)}
   context 'sees available methods' do
     it 'successfully' do
       adm
@@ -93,6 +95,73 @@ describe 'Staff manages payment methods' do
       expect(page).to have_text('123')
       expect(page).to have_text('4321')
       expect(page).to have_text('99999999')
+    end
+  end
+
+  context 'and cannot add payment method' do
+    it 'because one is already configured' do
+      login_as adm
+      boleto
+      visit new_staff_payment_method_boleto_path(pm1)
+      expect(current_path).to eq(staff_payment_method_path(pm1))
+      expect(page).to have_text('Boleto bancário do banco laranja')
+      expect(page).to have_text('10%')
+      expect(page).to have_text('R$ 100,00')
+      expect(page).to have_text('Tipo boleto')
+      expect(page).to have_text('123')
+      expect(page).to have_text('4321')
+      expect(page).to have_text('99999999')
+    end
+
+    it 'because cannot see link to configure' do
+      login_as adm
+      boleto
+      visit staff_payment_method_path(pm1)
+      expect(current_path).to eq(staff_payment_method_path(pm1))
+      expect(page).to_not have_link('Configurar')
+    end
+  end
+
+  context 'and edits payment method configuration' do
+    it 'for boleto' do
+      adm
+      pm1
+      login_as adm
+      boleto
+      visit staff_payment_method_path(pm1)
+      click_on 'Editar'
+      expect(current_path).to eq(edit_polymorphic_path [:staff,pm1,boleto])
+      fill_in 'Código do banco', with: 321
+      fill_in 'Número da agência', with: 1234
+      fill_in 'Número da conta', with: 88888888
+      click_on 'Salvar'
+      expect(page).to have_text('Boleto bancário do banco laranja')
+      expect(page).to have_text('10%')
+      expect(page).to have_text('R$ 100,00')
+      expect(page).to have_text('Tipo boleto')
+      expect(page).to have_text('321')
+      expect(page).to have_text('1234')
+      expect(page).to have_text('88888888')
+    end
+  end
+
+  context 'and disables payment method' do
+    it 'by clicking on button' do
+      adm
+      pm1
+      login_as adm
+      boleto
+      visit staff_payment_method_path(pm1)
+      click_on 'Desabilitar'
+      expect(page).to have_text('Meio de pagamento desabilitado com sucesso')
+      expect(page).to have_text('Boleto bancário do banco laranja')
+      expect(page).to have_text('10%')
+      expect(page).to have_text('R$ 100,00')
+      expect(page).to have_text('Tipo boleto')
+      expect(page).to_not have_text('123')
+      expect(page).to_not have_text('4321')
+      expect(page).to_not have_text('99999999')
+      expect(page).to have_link('Configurar')
     end
   end
 end
