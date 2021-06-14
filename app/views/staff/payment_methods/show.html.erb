@@ -1,0 +1,23 @@
+<h1><%= image_tag @payment_method.icon %> <%= @payment_method.name %></h1>
+<dl>
+  <dt>Taxa de cobrança</dt>
+  <dd><%= number_to_percentage @payment_method.charging_fee, precision:2, significant: true, separator: ',', delimiter:'.' %></dd>
+  <dt>Taxa máxima cobrável</dt>
+  <dd><%= number_to_currency @payment_method.maximum_charge,unit:'R$ ',separator:',',delimiter:'.' %></dd>
+  <dt>Tipo <%= @payment_method.pay_type %></dd>
+</dl>
+<% boleto = @payment_method.boletos.find{|boleto| boleto.company == current_staff.company}%>
+<% if boleto %>
+  <p>Configuração</p>
+  <dl>
+    <dt>Código do banco</dt>
+    <dd><%= boleto.bank_code %></dd>
+    <dt>Agência</dt>
+    <dd><%= boleto.agency %></dd>
+    <dt>Conta</dt>
+    <dd><%= boleto.account %></dd>
+  </dl>
+  <%=  link_to 'Editar', '#' %>
+<% else %>
+  <%= link_to 'Configurar', new_staff_payment_method_boleto_path(@payment_method) %>
+<% end %>

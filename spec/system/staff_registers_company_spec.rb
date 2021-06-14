@@ -22,5 +22,9 @@ describe 'Staff registers their company' do
       expect(current_path).to eq(root_path)
       expect(adm.reload.admin).to eq(true)
     end
+
+    xit 'email domain of company cannot be different from email domain of staff' do
+      
+    end
   end
 end

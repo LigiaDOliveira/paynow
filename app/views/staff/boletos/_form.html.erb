@@ -1,0 +1,17 @@
+<% if boleto.errors.any? %>
+  <p>Foram encontrados <%= boleto.errors.count %> erro(s):</p>
+  <ul>
+    <% boleto.errors.full_messages.each do |error|%>
+      <li><%= error %></li>
+    <% end %>
+  </ul>
+<% end %>
+<%= form_with model: [:staff, :payment_method, boleto] do |f| %>
+  <%= f.label :bank_code, 'Código do banco'%>
+  <%= f.number_field :bank_code %>
+  <%= f.label :agency, 'Número da agência' %>
+  <%= f.number_field :agency %>
+  <%= f.label :account, 'Número da conta'%>
+  <%= f.number_field :account %>
+  <%= f.submit button_text %>
+<% end %>

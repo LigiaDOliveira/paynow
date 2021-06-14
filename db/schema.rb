@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_12_224827) do
+ActiveRecord::Schema.define(version: 2021_06_14_132210) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -52,6 +52,18 @@ ActiveRecord::Schema.define(version: 2021_06_12_224827) do
     t.index ["reset_password_token"], name: "index_admins_paynow_on_reset_password_token", unique: true
   end
 
+  create_table "boletos", force: :cascade do |t|
+    t.integer "bank_code"
+    t.integer "agency"
+    t.integer "account"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "company_id"
+    t.integer "payment_method_id"
+    t.index ["company_id"], name: "index_boletos_on_company_id"
+    t.index ["payment_method_id"], name: "index_boletos_on_payment_method_id"
+  end
+
   create_table "companies", force: :cascade do |t|
     t.string "email"
     t.string "cnpj"
@@ -89,5 +101,7 @@ ActiveRecord::Schema.define(version: 2021_06_12_224827) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "boletos", "companies"
+  add_foreign_key "boletos", "payment_methods"
   add_foreign_key "staffs", "companies"
 end
