@@ -1,0 +1,13 @@
+<%= flash[:notice] %>
+<%= flash[:error] %>
+<% unless @products.empty?%>
+  <% @products.each do |product|%>
+    <h2><%= product.name %></h2>
+    <ul><%= number_to_currency product.price,unit:'R$ ',separator:',',delimiter:'.' %></ul>
+    <ul>Desconto: <%= number_to_percentage product.sale_discount, precision:1, significant: true, separator: ',', delimiter:'.' %></ul>
+    <ul>Token <%= product.token %></ul>
+  <% end %>
+<% else%>
+  <p>Nenhum meio de pagamento cadastrado</p>
+<% end %>
+<%= link_to 'Voltar', @company %>

@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   resources :companies do
     post 'reset_token'
   end
-
+  namespace :company do
+    resources :products, only: %i[index]
+  end
   namespace :staff do
     resources :payment_methods, only: %i[index show] do
       resources :boletos, only: %i[new create edit update destroy]
