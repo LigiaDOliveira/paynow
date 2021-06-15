@@ -6,9 +6,17 @@ describe 'Product Management' do
                                 email:'email@codeplay.com.br',
                                 address: 'Rua dos Bobos, nº 0',
                                 token: 'abcdefghij0123456789')}
+  let(:company2){Company.create!(corporate_name: 'Prupru',
+                                cnpj:'22.222.222/9992-99', 
+                                email:'email@prupru.com.br',
+                                address: 'Rua dos Espertos, nº 9',
+                                token: 'klmnopqrst0123456789')}
   let(:adm){Staff.create!(email: 'adm@codeplay.com.br',
                           password: '123456',
                           admin: true, company: company, token: company.token)}
+  let(:adm2){Staff.create!(email: 'adm@prupru.com.br',
+                          password: '123456',
+                          admin: true, company: company2, token: company2.token)}        
   let(:reg){Staff.create!(email: 'regular@codeplay.com.br',
                           password: '123456',
                           admin: false, company: company, token: company.token)}
@@ -60,6 +68,16 @@ describe 'Product Management' do
       expect(page).to have_text('Para continuar, efetue login ou registre-se')
       expect(current_path).to eq(new_staff_session_path)
     end
+
+    it 'unless staff from other company' do
+      prod1
+      login_as adm2
+      visit company_products_path(company)
+      expect(page).to_not have_text('Curso 1')
+      expect(page).to_not have_text('R$ 100,00')
+      expect(page).to_not have_text('Desconto: 0%')
+      expect(page).to have_text('Permissão negada')
+    end
   end
 
   context 'Staff can click on product and see details' do
@@ -76,6 +94,16 @@ describe 'Product Management' do
       expect(page).to have_text('Desconto: 0%')
       click_on 'Voltar'
       expect(current_path).to eq(company_products_path(company))
+    end
+
+    it 'unless staff of another company' do
+      prod1
+      login_as adm2
+      visit company_product_path(prod1)
+      expect(page).to_not have_text('Curso 1')
+      expect(page).to_not have_text('R$ 100,00')
+      expect(page).to_not have_text('Desconto: 0%')
+      expect(page).to have_text('Permissão negada')
     end
   end
 
@@ -120,7 +148,16 @@ describe 'Product Management' do
       expect(page).to have_text('Curso 4')
       expect(page).to have_text('R$ 85,00')
       expect(page).to have_text('Desconto: 0%')
-      save_page
+    end
+
+    it 'unless staff of another company' do
+      adm
+      login_as adm2
+      visit new_company_product_path(company)
+      expect(page).to_not have_text('Nome')
+      expect(page).to_not have_text('Valor do produto')
+      expect(page).to_not have_text('Desconto')
+      expect(page).to have_text('Permissão negada')
     end
   end
 
@@ -141,7 +178,16 @@ describe 'Product Management' do
       expect(page).to have_text('Curso 4')
       expect(page).to have_text('R$ 85,00')
       expect(page).to have_text('Desconto: 10%')
-      save_page
+    end
+    it 'unless staff of another company' do
+      adm
+      prod1
+      login_as adm2
+      visit edit_company_product_path(prod1)
+      expect(page).to_not have_text('Nome')
+      expect(page).to_not have_text('Valor do produto')
+      expect(page).to_not have_text('Desconto')
+      expect(page).to have_text('Permissão negada')
     end
   end
 
@@ -156,6 +202,16 @@ describe 'Product Management' do
       expect(page).to_not have_text('Curso 1')
       expect(page).to_not have_text('R$ 100,00')
       expect(page).to_not have_text('Desconto: 0%')
+    end
+
+    it 'unless staff of another company' do
+      adm
+      prod1
+      login_as adm2
+      page.driver.submit :delete, company_product_path(prod1), {}
+      expect(page).to_not have_text('Produto apagado com sucesso')
+      expect(page).to have_text('Permissão negada')
+      save_page
     end
   end
 end
