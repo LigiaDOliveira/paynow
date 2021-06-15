@@ -1,7 +1,7 @@
 class Company::ProductsController < ApplicationController
   before_action :authenticate_staff!
-  before_action :set_company, only: %i[index show new create]
-  before_action :set_product, only: %i[show]
+  before_action :set_company, only: %i[index show new create edit update]
+  before_action :set_product, only: %i[show edit update]
   def index
     @products = @company.products.all
   end
@@ -18,6 +18,15 @@ class Company::ProductsController < ApplicationController
     @product = @company.products.new(product_params)
     return render :new, error: 'Erros foram encontrados' unless @product.save
     redirect_to [@company,@product], notice: 'Produto cadastrado com sucesso'
+  end
+
+  def edit
+
+  end
+
+  def update
+    return render :edit, error: 'Erros foram encontrados' unless @product.update(product_params)
+    redirect_to [@company,@product], notice: 'Produto editado com sucesso'
   end
 
   private

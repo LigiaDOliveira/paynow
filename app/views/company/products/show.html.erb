@@ -7,5 +7,5 @@
   <dt>Token: <%= @product.token %></dt>
 </dl>
 <%= link_to 'Voltar', [@company,:products] %>
-<%= link_to 'Editar', '#' %>
+<%= link_to 'Editar', [:edit,@company,@product] %>
 <%= link_to 'Apagar', '#' %>

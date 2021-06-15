@@ -10,7 +10,7 @@ class Product < ApplicationRecord
   end
 
   def set_token
-    self.token = generate_token
+    self.token = generate_token if self.token.nil?
   end
 
   def generate_token

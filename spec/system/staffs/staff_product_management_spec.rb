@@ -123,4 +123,25 @@ describe 'Product Management' do
       save_page
     end
   end
+
+  context 'Staff edits product' do
+    it 'successfully' do
+      login_as adm
+      prod1
+      visit company_product_path(prod1)
+      click_on 'Editar'
+      fill_in 'Nome', with: 'Curso 4'
+      fill_in 'Valor do produto', with: 85
+      fill_in 'Desconto', with: 10
+      click_on 'Salvar'
+      expect(page).to_not have_text('Curso 1')
+      expect(page).to_not have_text('R$ 100,00')
+      expect(page).to_not have_text('Desconto: 0%')
+      expect(page).to have_text('Produto editado com sucesso')
+      expect(page).to have_text('Curso 4')
+      expect(page).to have_text('R$ 85,00')
+      expect(page).to have_text('Desconto: 10%')
+      save_page
+    end
+  end
 end
