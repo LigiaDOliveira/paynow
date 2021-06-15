@@ -1,7 +1,7 @@
 class Company::ProductsController < ApplicationController
   before_action :authenticate_staff!
-  before_action :set_company, only: %i[index show new create edit update]
-  before_action :set_product, only: %i[show edit update]
+  before_action :set_company, only: %i[index show new create edit update destroy]
+  before_action :set_product, only: %i[show edit update destroy]
   def index
     @products = @company.products.all
   end
@@ -27,6 +27,11 @@ class Company::ProductsController < ApplicationController
   def update
     return render :edit, error: 'Erros foram encontrados' unless @product.update(product_params)
     redirect_to [@company,@product], notice: 'Produto editado com sucesso'
+  end
+
+  def destroy
+    @product.destroy
+    redirect_to [@company,:products], notice: 'Produto apagado com sucesso'
   end
 
   private

@@ -144,4 +144,18 @@ describe 'Product Management' do
       save_page
     end
   end
+
+  context 'Staff deletes product' do
+    it 'successfully' do
+      login_as adm
+      prod1
+      visit company_product_path(prod1)
+      click_on 'Apagar'
+      expect(page).to have_text('Produto apagado com sucesso')
+      expect(page).to have_text('Nenhum produto cadastrado')
+      expect(page).to_not have_text('Curso 1')
+      expect(page).to_not have_text('R$ 100,00')
+      expect(page).to_not have_text('Desconto: 0%')
+    end
+  end
 end
