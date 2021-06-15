@@ -17,18 +17,34 @@
       <%= link_to 'Configurar', new_staff_payment_method_boleto_path(payment_method) %>
     <% end %>
   <% when 'PIX' %>
-    <% pix = payment_method.pixes.find{|pix| pix.company == current_staff.company}%>
-    <% if pix %>
+    <%  credit_card = payment_method.pixes.find{| credit_card| credit_card.company == current_staff.company}%>
+    <% if  credit_card %>
       <h3>Configuração</h3>
       <dl>
         <dt>Chave PIX</dt>
-        <dd><%= pix.pix_key %></dd>
+        <dd><%=  credit_card.pix_key %></dd>
         <dt>Código do banco</dt>
-        <dd><%= pix.bank_code %></dd>
+        <dd><%=  credit_card.bank_code %></dd>
       </dl>
-      <%=  link_to 'Editar', [:edit,:staff,payment_method,pix] %>
-      <%=  link_to 'Desabilitar', [:staff,payment_method,pix], method: :delete, data:{confirm: 'Você realmente deseja desabilitar este método de pagamento?'} %>
+      <%=  link_to 'Editar', [:edit,:staff,payment_method, credit_card] %>
+      <%=  link_to 'Desabilitar', [:staff,payment_method, credit_card], method: :delete, data:{confirm: 'Você realmente deseja desabilitar este método de pagamento?'} %>
     <% else %>
       <%= link_to 'Configurar', new_staff_payment_method_pix_path(payment_method) %>
     <% end %>
+  <% when 'cartão de crédito' %>
+    <%  credit_card = payment_method.credit_cards.find{|credit_card|  credit_card.company == current_staff.company}%>
+    <% if  credit_card %>
+      <h3>Configuração</h3>
+      <dl>
+        <dt>Conta junto à operadora de cartão</dt>
+        <dd><%=  credit_card.cc_code %></dd>
+      </dl>
+      <%=  link_to 'Editar', [:edit,:staff,payment_method, credit_card] %>
+      <%=  link_to 'Desabilitar', [:staff,payment_method, credit_card], method: :delete, data:{confirm: 'Você realmente deseja desabilitar este método de pagamento?'} %>
+    <% else %>
+      <%= link_to 'Configurar', [:new,:staff,payment_method,:credit_card] %> 
+      <%# #[:new,:staff,payment_method, credit_card] %>
+    <% end %>
+  <% else %>
+    <p>Opção de meio de pagamento inválida</p>
 <% end %>

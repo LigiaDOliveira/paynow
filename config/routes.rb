@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :payment_methods, only: %i[index show] do
       resources :boletos, only: %i[new create edit update destroy]
       resources :pixes, only: %i[new create edit update destroy]
+      resources :credit_cards, only: %i[new create edit update destroy]
     end
   end
 

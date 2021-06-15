@@ -1,0 +1,13 @@
+<% if  credit_card.errors.any? %>
+  <p>Foram encontrados <%=  credit_card.errors.count %> erro(s):</p>
+  <ul>
+    <%  credit_card.errors.full_messages.each do |error|%>
+      <li><%= error %></li>
+    <% end %>
+  </ul>
+<% end %>
+<%= form_with model: [:staff, :payment_method, credit_card] do |f| %>
+  <%= f.label :cc_code, 'Conta junto à operadora do cartão'%>
+  <%= f.text_field :cc_code %>
+  <%= f.submit button_text %>
+<% end %>
