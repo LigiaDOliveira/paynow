@@ -1,0 +1,17 @@
+<% if product.errors.any? %>
+  <p>Foram encontrados <%= product.errors.count %> erro(s):</p>
+  <ul>
+    <% product.errors.full_messages.each do |error|%>
+      <li><%= error %></li>
+    <% end %>
+  </ul>
+<% end %>
+<%= form_with model: [company,product] do |f| %>
+  <%= f.label :name, 'Nome'%>
+  <%= f.text_field :name %>
+  <%= f.label :price, 'Valor do produto' %>
+  <%= f.text_field :price %>
+  <%= f.label :sale_discount, 'Desconto'%>
+  <%= f.number_field :sale_discount %>
+  <%= f.submit button_text %>
+<% end %>

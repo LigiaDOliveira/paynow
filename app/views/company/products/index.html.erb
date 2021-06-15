@@ -2,12 +2,13 @@
 <%= flash[:error] %>
 <% unless @products.empty?%>
   <% @products.each do |product|%>
-    <h2><%= product.name %></h2>
+    <h2><%=link_to product.name, company_product_path(product) %></h2>
     <ul><%= number_to_currency product.price,unit:'R$ ',separator:',',delimiter:'.' %></ul>
     <ul>Desconto: <%= number_to_percentage product.sale_discount, precision:1, significant: true, separator: ',', delimiter:'.' %></ul>
     <ul>Token <%= product.token %></ul>
   <% end %>
 <% else%>
-  <p>Nenhum meio de pagamento cadastrado</p>
+  <p>Nenhum produto cadastrado</p>
 <% end %>
 <%= link_to 'Voltar', @company %>
+<%= link_to 'Cadastrar produto', [:new,@company,:product] %>

@@ -1,8 +1,14 @@
 class Product < ApplicationRecord
+  belongs_to :company
   before_create :set_token
-  validates :name, :price, :sale_discount,
+  before_create :set_sale_discount
+  validates :name, :price,
             presence: {message: 'não pode ficar em branco'}
-  
+
+  def set_sale_discount
+    self.sale_discount = 0 if self.sale_discount.nil?
+  end
+
   def set_token
     self.token = generate_token
   end

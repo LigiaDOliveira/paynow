@@ -1,0 +1,15 @@
+---
+pt-BR:
+  activerecord:
+    models:
+      product:
+        one: Produto
+        other: Produtos
+    attributes:
+      product:
+        name: Nome
+        price: Valor do produto
+        sale_discount: Desconto
+        password: Senha
+        password_confirmation: Confirmação de senha
+        remember_me: 'Lembrar conta'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_15_131012) do
+ActiveRecord::Schema.define(version: 2021_06_15_173136) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -111,6 +111,8 @@ ActiveRecord::Schema.define(version: 2021_06_15_131012) do
     t.string "token"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "company_id"
+    t.index ["company_id"], name: "index_products_on_company_id"
   end
 
   create_table "staffs", force: :cascade do |t|
@@ -137,5 +139,6 @@ ActiveRecord::Schema.define(version: 2021_06_15_131012) do
   add_foreign_key "credit_cards", "payment_methods"
   add_foreign_key "pixes", "companies"
   add_foreign_key "pixes", "payment_methods"
+  add_foreign_key "products", "companies"
   add_foreign_key "staffs", "companies"
 end
