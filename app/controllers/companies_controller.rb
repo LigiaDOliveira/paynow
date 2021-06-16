@@ -41,6 +41,12 @@ class CompaniesController < ApplicationController
     end 
   end
 
+  def my_staff
+    @company = Company.find(params[:id])
+    return redirect_to root_path, alert: 'Permissão negada' unless current_staff.admin? && current_staff.company == @company
+    @staffs = @company.staffs.all
+  end
+
   private
   def company_params
     params

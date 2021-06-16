@@ -1,0 +1,11 @@
+<%= flash[:notice] %>
+<%= flash[:alert] %>
+<h1>Funcionários da empresa <%= current_staff.company.corporate_name %></h1>
+<% unless @staffs.empty?%>
+  <% @staffs.each do |staff|%>
+    <p><%= staff.email %> Status: <%= staff.staff_status  %> Permissão: <%= staff.staff_permission %></p>
+  <% end %>
+<% else%>
+  <p>Nenhum funcionário, contatar representante PayNow</p>
+<% end %>
+<%= link_to 'Voltar', company_path(current_staff.company) %>

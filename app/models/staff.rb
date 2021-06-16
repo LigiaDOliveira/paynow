@@ -19,4 +19,22 @@ class Staff < ApplicationRecord
     end
     cmp.first
   end
+
+  def active_for_authentication?
+    super && self.staff_active
+  end
+
+  def inactive_message
+    'Esta conta foi bloqueada pelo administrador'
+  end
+
+  def staff_status
+    return 'Ativo' if self.staff_active?
+    'Bloqueado'
+  end
+
+  def staff_permission
+    return 'Administrador' if self.admin?
+    'Comum'
+  end
 end

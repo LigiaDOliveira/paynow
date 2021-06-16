@@ -3,14 +3,16 @@ Rails.application.routes.draw do
   devise_for :admins_paynow
   root 'home#index'
 
-  resources :payment_methods
   resources :companies do
     post 'reset_token'
+    get 'my_staff', on: :member
   end
   namespace :company do
     resources :products, only: %i[index show new create edit update destroy]
   end
+  resources :payment_methods
   namespace :staff do
+    put 'block_staff'
     resources :payment_methods, only: %i[index show] do
       resources :boletos, only: %i[new create edit update destroy]
       resources :pixes, only: %i[new create edit update destroy]
