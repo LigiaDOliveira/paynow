@@ -201,7 +201,6 @@ describe 'Staff account management' do
       adm
       login_as blocked_reg
       visit root_path
-      save_page
       expect(page).to_not have_text('blocked_reg@codeplay.com.br')
     end
 

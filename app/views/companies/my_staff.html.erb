@@ -5,7 +5,7 @@
   <% @staffs.each do |staff|%>
     <div class = staff<%= staff.id %>>
       <p><%= staff.email %> Status: <%= staff.staff_status  %> Permissão: <%= staff.staff_permission %> </p>
-      <%= link_to 'Bloquear acesso', staff_block_staff_path(staff), method: :put unless staff.admin? %>
+      <%= link_to 'Bloquear acesso', staff_block_staff_path(staff), method: :put unless staff.admin? || !staff.staff_active? %>
     </div>
   <% end %>
 <% else%>

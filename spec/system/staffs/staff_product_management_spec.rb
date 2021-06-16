@@ -211,7 +211,6 @@ describe 'Product Management' do
       page.driver.submit :delete, company_product_path(prod1), {}
       expect(page).to_not have_text('Produto apagado com sucesso')
       expect(page).to have_text('Permissão negada')
-      save_page
     end
   end
 end

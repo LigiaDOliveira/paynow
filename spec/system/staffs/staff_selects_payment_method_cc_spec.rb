@@ -46,7 +46,6 @@ describe 'Staff manages payment methods' do
       pm3
       login_as adm
       visit root_path
-      save_page
       click_on 'Gerenciar meios de pagamento'
       expect(current_path).to eq(staff_payment_methods_path)
       expect(page).to have_text('Boleto bancário do banco laranja')
