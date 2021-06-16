@@ -3,7 +3,10 @@
 <h1>Funcionários da empresa <%= current_staff.company.corporate_name %></h1>
 <% unless @staffs.empty?%>
   <% @staffs.each do |staff|%>
-    <p><%= staff.email %> Status: <%= staff.staff_status  %> Permissão: <%= staff.staff_permission %></p>
+    <div class = staff<%= staff.id %>>
+      <p><%= staff.email %> Status: <%= staff.staff_status  %> Permissão: <%= staff.staff_permission %> </p>
+      <%= link_to 'Bloquear acesso', staff_block_staff_path(staff), method: :put unless staff.admin? %>
+    </div>
   <% end %>
 <% else%>
   <p>Nenhum funcionário, contatar representante PayNow</p>

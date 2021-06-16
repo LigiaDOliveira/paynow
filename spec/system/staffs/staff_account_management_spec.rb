@@ -12,6 +12,9 @@ describe 'Staff account management' do
   let(:reg){Staff.create!(email: 'reg@codeplay.com.br',
                           password: '123456',
                           admin: false, company: company, token: company.token)}
+  let(:blocked_reg){Staff.create!(email: 'blocked_reg@codeplay.com.br',
+                          password: '123456',
+                          admin: false,staff_active: false, company: company, token: company.token)}
   
   context 'registration as admin' do
     it 'with email and password' do
@@ -196,6 +199,14 @@ describe 'Staff account management' do
 
     it 'unless logged in as regular staff because cannot force link' do
       adm
+      login_as blocked_reg
+      visit root_path
+      save_page
+      expect(page).to_not have_text('blocked_reg@codeplay.com.br')
+    end
+
+    it 'unless blocked because cannot force link' do
+      adm
       login_as reg
       visit my_staff_company_path(company)
       expect(page).to_not have_text('adm@codeplay.com.br')
@@ -203,6 +214,20 @@ describe 'Staff account management' do
       expect(page).to_not have_text('Status: Ativo')
       expect(page).to_not have_text('Permissão: Comum')
       expect(page).to_not have_text('Status: Ativo')
+    end
+  end
+
+  context 'Staff can block another staff' do
+    it 'if logged in as admin' do
+      login_as adm
+      reg
+      visit my_staff_company_path(company)
+      click_on 'Bloquear acesso'
+      expect(page).to have_text('adm@codeplay.com.br')
+      expect(page).to have_text('Permissão: Administrador')
+      expect(page).to have_text('Status: Ativo')
+      expect(page).to have_text('Permissão: Comum')
+      expect(page).to have_text('Status: Bloqueado')
     end
   end
 end
