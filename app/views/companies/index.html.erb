@@ -1,0 +1,24 @@
+<%= flash[:notice] %>
+<%= flash[:alert] %>
+<h1>Empresas Cadastradas</h1>
+<% unless @companies.empty?%>
+  <% @companies.each do |company|%>
+    <div class='company' id=<%="#{company.id}"%>>
+      <h2><%= company.corporate_name %></h1>
+      <ul>Token: <%= company.token %></ul>
+      <ul><%= company.email %></ul>
+      <ul><%= company.cnpj %></ul>
+      <ul><%= company.address %></ul>
+      <% if company.suspension_required %>
+        <ul><%= company.requested_suspension_message %></ul>
+        <ul><%= link_to 'Confirmar suspensão', company_path(company), method: :delete unless company.suspension_required_by_id == current_admin_paynow.id %></ul>
+      <% else %>
+      <ul><%= link_to 'Solicitar suspensão', request_suspension_company_path(company), method: :put %></ul>
+      <% end %>
+      
+    </div>
+  <% end %>
+<% else%>
+  <p>Nenhuma empresa cadastrada</p>
+<% end %>
+<%= link_to 'Voltar', root_path %>

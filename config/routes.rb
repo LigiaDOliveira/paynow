@@ -4,8 +4,9 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resources :companies do
-    post 'reset_token'
     get 'my_staff', on: :member
+    post 'reset_token'
+    put 'request_suspension', on: :member
   end
   namespace :company do
     resources :products, only: %i[index show new create edit update destroy]
@@ -19,5 +20,4 @@ Rails.application.routes.draw do
       resources :credit_cards, only: %i[new create edit update destroy]
     end
   end
-
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_16_002057) do
+ActiveRecord::Schema.define(version: 2021_06_16_202437) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -72,6 +72,8 @@ ActiveRecord::Schema.define(version: 2021_06_16_002057) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "token"
+    t.boolean "suspension_required", default: false
+    t.integer "suspension_required_by_id"
   end
 
   create_table "credit_cards", force: :cascade do |t|

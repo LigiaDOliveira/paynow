@@ -1,5 +1,11 @@
 class CompaniesController < ApplicationController
-  before_action :authenticate_staff!
+  before_action :authenticate_staff!, only: %i[new create show edit update]
+  before_action :authenticate_admin_paynow!, only: %i[index request_suspension]
+
+  def index
+    @companies = Company.all
+  end
+
   def new
     @company = Company.new
   end
@@ -45,6 +51,24 @@ class CompaniesController < ApplicationController
     @company = Company.find(params[:id])
     return redirect_to root_path, alert: 'Permissão negada' unless current_staff.admin? && current_staff.company == @company
     @staffs = @company.staffs.all
+  end
+
+  def request_suspension
+    @company = Company.find(params[:id])
+    @company.suspension_required = true
+    @company.suspension_required_by_id = current_admin_paynow.id
+    @company.save
+    redirect_to companies_path, notice: 'Suspensão solicitada com sucesso'
+  end
+
+  def destroy
+    @company = Company.find(params[:id])
+    if  @company.suspension_required? && @company.suspension_required_by_id == current_admin_paynow.id
+      redirect_to companies_path, alert: 'Permissão negada'
+    else
+      @company.destroy
+      redirect_to companies_path, notice: 'Empresa desligada'
+    end
   end
 
   private
