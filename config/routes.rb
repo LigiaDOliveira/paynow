@@ -20,4 +20,9 @@ Rails.application.routes.draw do
       resources :credit_cards, only: %i[new create edit update destroy]
     end
   end
+  namespace :api do
+    namespace :v1 do
+      resources :customers, only: %i[index]
+    end
+  end
 end

@@ -7,6 +7,7 @@ class Company < ApplicationRecord
   has_many :payment_methods, through: :pixes
   has_many :payment_methods, through: :boletos
   has_many :payment_methods, through: :credit_cards
+  has_many :customers, through: :customer_tokens
   validates :email, email: true 
 
   def requested_suspension_message
