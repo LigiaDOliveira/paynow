@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_18_145821) do
+ActiveRecord::Schema.define(version: 2021_06_19_142647) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -62,6 +62,22 @@ ActiveRecord::Schema.define(version: 2021_06_18_145821) do
     t.integer "payment_method_id"
     t.index ["company_id"], name: "index_boletos_on_company_id"
     t.index ["payment_method_id"], name: "index_boletos_on_payment_method_id"
+  end
+
+  create_table "charges", force: :cascade do |t|
+    t.string "additional_params"
+    t.string "customer_complete_name"
+    t.string "customer_cpf"
+    t.string "company_token"
+    t.decimal "discount_value"
+    t.date "due_date"
+    t.decimal "original_value"
+    t.string "pay_type"
+    t.string "product_token"
+    t.string "status", default: "pendente"
+    t.string "token"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "companies", force: :cascade do |t|

@@ -43,7 +43,7 @@ class CompaniesController < ApplicationController
       @company.save!
       redirect_to @company, notice: 'Token resetado com sucesso!'
     else
-      redirect_to @company, error: 'Permissão negada'
+      redirect_to @company, alert: 'Permissão negada'
     end 
   end
 
