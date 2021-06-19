@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   end
   namespace :api do
     namespace :v1 do
-      resources :customers, only: %i[index]
+      resources :customers, only: %i[index create]
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_18_140852) do
+ActiveRecord::Schema.define(version: 2021_06_18_145821) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -90,6 +90,10 @@ ActiveRecord::Schema.define(version: 2021_06_18_140852) do
     t.string "token"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "customer_id"
+    t.integer "company_id"
+    t.index ["company_id"], name: "index_customer_tokens_on_company_id"
+    t.index ["customer_id"], name: "index_customer_tokens_on_customer_id"
   end
 
   create_table "customers", force: :cascade do |t|
@@ -153,6 +157,8 @@ ActiveRecord::Schema.define(version: 2021_06_18_140852) do
   add_foreign_key "boletos", "payment_methods"
   add_foreign_key "credit_cards", "companies"
   add_foreign_key "credit_cards", "payment_methods"
+  add_foreign_key "customer_tokens", "companies"
+  add_foreign_key "customer_tokens", "customers"
   add_foreign_key "pixes", "companies"
   add_foreign_key "pixes", "payment_methods"
   add_foreign_key "products", "companies"
