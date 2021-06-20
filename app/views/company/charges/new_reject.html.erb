@@ -1,0 +1,18 @@
+<h1>Rejeição de cobrança</h1>
+<h3>Favor informar os dados</h3>
+<% if @charge.errors.any? %>
+  <p>Foram encontrados <%= @charge.errors.count %> erro(s):</p>
+  <ul>
+    <% @charge.errors.full_messages.each do |error|%>
+      <li><%= error %></li>
+    <% end %>
+  </ul>
+<% end %>
+<%= form_with model: [:company,@charge] do |f| %>
+  <%= f.label :denied_date, 'Data da rejeição'%>
+  <%= f.date_field :denied_date %>
+  <%= f.label :return_code, 'Código de retorno' %>
+  <%= f.text_field :return_code %>
+    <%= f.hidden_field :status, 'pendente' %>
+  <%= f.submit 'Avançar' %>
+<% end %>

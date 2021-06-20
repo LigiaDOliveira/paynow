@@ -102,11 +102,117 @@ describe 'Staff manages charges' do
   end
 
   context 'by being admin and setting charge status' do
-    xit 'to rejected' do
-      
+    it 'to rejected' do
+      CustomerToken.create!(customer: customer, company: company)
+      CustomerToken.create!(customer: customer2, company: company)
+      post '/api/v1/charges', params: {
+        charge: {
+          company_token: company.token,
+          product_token: prod1.token, 
+          customer_complete_name: customer.complete_name,
+          customer_cpf: customer.cpf,
+          pay_type: pm1.pay_type,
+          due_date: '01/12/2050'
+        },
+        additional_params:{address: 'Av. Brasil, nº999'}
+      }
+      post '/api/v1/charges', params: {
+        charge: {
+          company_token: company.token,
+          product_token: prod2.token, 
+          customer_complete_name: customer.complete_name,
+          customer_cpf: customer.cpf,
+          pay_type: pm2.pay_type,
+          due_date: '01/12/2050'
+        }
+      }
+      post '/api/v1/charges', params: {
+        charge: {
+          company_token: company.token,
+          product_token: prod2.token, 
+          customer_complete_name: customer2.complete_name,
+          customer_cpf: customer2.cpf,
+          pay_type: pm3.pay_type,
+          due_date: '01/12/2050'
+        },
+        additional_params:{cc_name: 'Fulano Cliente',cc_number: '5381579886310193', cc_cvv: '235'}
+      }
+      login_as(adm, :scope => :staff)
+      visit company_charges_path
+      within "div#1.charge" do
+        click_on 'Rejeitar cobrança'
+      end
+      fill_in 'Data da rejeição', with: '05/07/2021'
+      fill_in 'Código de retorno', with: '11'
+      click_on 'Avançar'
+      expect(page).to have_text(prod1.token)
+      expect(page).to have_text(customer.complete_name)
+      expect(page).to have_text(customer.cpf)
+      expect(page).to have_text(customer2.complete_name)
+      expect(page).to have_text(customer2.cpf)
+      expect(page).to have_text('01/12/2050')
+      expect(page).to have_text(prod2.token)
+      expect(page).to have_text('Histórico')
+      expect(page).to have_text('05/07/2021')
+      expect(page).to have_text('11')
     end
-    xit 'to accepted' do
-      
+    it 'to accepted' do
+      CustomerToken.create!(customer: customer, company: company)
+      CustomerToken.create!(customer: customer2, company: company)
+      post '/api/v1/charges', params: {
+        charge: {
+          company_token: company.token,
+          product_token: prod1.token, 
+          customer_complete_name: customer.complete_name,
+          customer_cpf: customer.cpf,
+          pay_type: pm1.pay_type,
+          due_date: '01/12/2050'
+        },
+        additional_params:{address: 'Av. Brasil, nº999'}
+      }
+      post '/api/v1/charges', params: {
+        charge: {
+          company_token: company.token,
+          product_token: prod2.token, 
+          customer_complete_name: customer.complete_name,
+          customer_cpf: customer.cpf,
+          pay_type: pm2.pay_type,
+          due_date: '01/12/2050'
+        }
+      }
+      post '/api/v1/charges', params: {
+        charge: {
+          company_token: company.token,
+          product_token: prod2.token, 
+          customer_complete_name: customer2.complete_name,
+          customer_cpf: customer2.cpf,
+          pay_type: pm3.pay_type,
+          due_date: '01/12/2050'
+        },
+        additional_params:{cc_name: 'Fulano Cliente',cc_number: '5381579886310193', cc_cvv: '235'}
+      }
+      login_as(adm, :scope => :staff)
+      visit company_charges_path
+      within "div#1.charge" do
+        click_on 'Aprovar cobrança'
+      end
+      fill_in 'Data do pagamento', with: '05/07/2021'
+      click_on 'Avançar'
+      save_page
+      expect(page).to have_text(prod1.token)
+      expect(page).to have_text(customer.complete_name)
+      expect(page).to have_text(customer.cpf)
+      expect(page).to have_text(customer2.complete_name)
+      expect(page).to have_text(customer2.cpf)
+      expect(page).to have_text('01/12/2050')
+      expect(page).to have_text(prod2.token)
+      expect(page).to have_text('Histórico')
+      expect(page).to have_text('05/07/2021')
+      expect(page).to have_text('Aprovada')
+      within "div#1.charge" do
+        expect(page).to_not have_link('Rejeitar cobrança')
+        expect(page).to_not have_link('Aprovar cobrança')
+      end
     end
   end
 end

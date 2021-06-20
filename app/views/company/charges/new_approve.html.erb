@@ -1,0 +1,16 @@
+<h1>Aprovação de cobrança</h1>
+<h3>Favor informar os dados</h3>
+<% if @charge.errors.any? %>
+  <p>Foram encontrados <%= @charge.errors.count %> erro(s):</p>
+  <ul>
+    <% @charge.errors.full_messages.each do |error|%>
+      <li><%= error %></li>
+    <% end %>
+  </ul>
+<% end %>
+<%= form_with model: [:company,@charge] do |f| %>
+  <%= f.label :approved_date, 'Data do pagamento'%>
+  <%= f.date_field :approved_date %>
+  <%= f.hidden_field :status, value: 'aprovada' %>
+  <%= f.submit 'Avançar' %>
+<% end %>

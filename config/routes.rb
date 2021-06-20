@@ -10,7 +10,10 @@ Rails.application.routes.draw do
   end
   namespace :company do
     resources :products, only: %i[index show new create edit update destroy]
-    resources :charges, only: %i[index]
+    resources :charges, only: %i[index update] do
+      get 'new_reject'
+      get 'new_approve'
+    end
   end
   resources :payment_methods
   namespace :staff do
