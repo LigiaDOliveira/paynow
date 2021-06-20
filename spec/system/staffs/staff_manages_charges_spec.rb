@@ -198,7 +198,6 @@ describe 'Staff manages charges' do
       end
       fill_in 'Data do pagamento', with: '05/07/2021'
       click_on 'Avançar'
-      save_page
       expect(page).to have_text(prod1.token)
       expect(page).to have_text(customer.complete_name)
       expect(page).to have_text(customer.cpf)

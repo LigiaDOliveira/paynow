@@ -13,6 +13,6 @@
   <%= f.date_field :denied_date %>
   <%= f.label :return_code, 'Código de retorno' %>
   <%= f.text_field :return_code %>
-    <%= f.hidden_field :status, 'pendente' %>
+  <%= f.hidden_field :status, value: 'pendente' %>
   <%= f.submit 'Avançar' %>
 <% end %>
