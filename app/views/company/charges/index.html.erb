@@ -1,0 +1,15 @@
+<h1>Cobranças</h1>
+<% if @charges.empty? %>
+  <p>Nenhuma cobrança</p>
+<% else %>
+  <% @charges.each do |charge| %>
+    <p><%= charge.product_token %></p>
+    <h2>Tipo de pagamento: <%= charge.pay_type.capitalize %></h2>
+    <p><%= charge.customer_complete_name %></p>
+    <p><%= charge.customer_cpf %></p>
+    <p>Valor original: <%= charge.original_value %></p>
+    <p>Valor a pagar: <%= charge.discount_value %></p>
+    <p>Válido até: <%= l charge.due_date %></p>
+    <p>Status: <%= charge.status.capitalize %></p>
+  <% end %>
+<% end %>

@@ -1,6 +1,5 @@
 <h1>PayNow</h1>
 <p>Boas vindas à plataforma de pagamentos PayNow!</p>
-
 <% if staff_signed_in? %>
   <%= link_to 'Gerenciar meios de pagamento', staff_payment_methods_path %>
   <%= link_to 'Cadastrar empresa', new_company_path  if current_staff.company.nil? %>
