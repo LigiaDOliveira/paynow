@@ -239,4 +239,174 @@ describe 'emmit charge solicitation' do
       expect(response.status).to eq(404)
     end
   end
+
+  context 'and company can filter charges' do
+    it 'by due date' do
+      prod3
+      pm2
+      login_as adm, scope: :staff
+      boleto
+      logout
+      customer
+      CustomerToken.create!(customer: customer, company: company)
+      post '/api/v1/charges', params: {
+        charge: {
+          company_token: company.token,
+          product_token: prod1.token, 
+          customer_complete_name: customer.complete_name,
+          customer_cpf: customer.cpf,
+          pay_type: pm1.pay_type,
+          due_date: '01/08/2050'
+        },
+        additional_params:{address: 'Av. Brasil, nº999'}
+      }
+      post '/api/v1/charges', params: {
+        charge: {
+          company_token: company.token,
+          product_token: prod3.token, 
+          customer_complete_name: customer.complete_name,
+          customer_cpf: customer.cpf,
+          pay_type: pm2.pay_type,
+          due_date: '01/12/2050'
+        }
+      }
+      post '/api/v1/charges', params: {
+        charge: {
+          company_token: company.token,
+          product_token: prod2.token, 
+          customer_complete_name: customer.complete_name,
+          customer_cpf: customer.cpf,
+          pay_type: pm3.pay_type,
+          due_date: '01/08/2050'
+        },
+        additional_params:{cc_name: 'Fulano Cliente',cc_number: '5381579886310193', cc_cvv: '235'}
+      }
+
+      get '/api/v1/charges/search', params: {
+        due_date: '01/08/2050'
+      }
+      expect(response.status).to eq(200)
+      expect(response.content_type).to include('application/json')
+      parsed_body = JSON.parse(response.body)
+      expect(parsed_body.size).to eq(2)
+      first, last = parsed_body
+      expect(first['company_token']).to eq(company.token)  
+      expect(first['product_token']).to eq(prod1.token)  
+      expect(first['customer_complete_name']).to eq(customer.complete_name)  
+      expect(first['customer_cpf']).to eq(customer.cpf)  
+      expect(first['pay_type']).to eq(pm1.pay_type)
+      expect(last['pay_type']).to eq(pm3.pay_type)  
+    end
+
+    it 'by payment method' do
+      prod3
+      pm2
+      login_as adm, scope: :staff
+      boleto
+      logout
+      customer
+      CustomerToken.create!(customer: customer, company: company)
+      post '/api/v1/charges', params: {
+        charge: {
+          company_token: company.token,
+          product_token: prod1.token, 
+          customer_complete_name: customer.complete_name,
+          customer_cpf: customer.cpf,
+          pay_type: pm1.pay_type,
+          due_date: '01/08/2050'
+        },
+        additional_params:{address: 'Av. Brasil, nº999'}
+      }
+      post '/api/v1/charges', params: {
+        charge: {
+          company_token: company.token,
+          product_token: prod3.token, 
+          customer_complete_name: customer.complete_name,
+          customer_cpf: customer.cpf,
+          pay_type: pm2.pay_type,
+          due_date: '01/12/2050'
+        }
+      }
+      post '/api/v1/charges', params: {
+        charge: {
+          company_token: company.token,
+          product_token: prod2.token, 
+          customer_complete_name: customer.complete_name,
+          customer_cpf: customer.cpf,
+          pay_type: pm3.pay_type,
+          due_date: '01/08/2050'
+        },
+        additional_params:{cc_name: 'Fulano Cliente',cc_number: '5381579886310193', cc_cvv: '235'}
+      }
+
+      get '/api/v1/charges/search', params: {
+        pay_type: 'boleto'
+      }
+      expect(response.status).to eq(200)
+      expect(response.content_type).to include('application/json')
+      parsed_body = JSON.parse(response.body)
+      expect(parsed_body.size).to eq(1)
+      expect(parsed_body.first['company_token']).to eq(company.token)  
+      expect(parsed_body.first['product_token']).to eq(prod1.token)  
+      expect(parsed_body.first['customer_complete_name']).to eq(customer.complete_name)  
+      expect(parsed_body.first['customer_cpf']).to eq(customer.cpf)  
+      expect(parsed_body.first['pay_type']).to eq(pm1.pay_type)
+    end
+    it 'by payment method and due date' do
+      prod3
+      pm2
+      login_as adm, scope: :staff
+      boleto
+      logout
+      customer
+      CustomerToken.create!(customer: customer, company: company)
+      post '/api/v1/charges', params: {
+        charge: {
+          company_token: company.token,
+          product_token: prod1.token, 
+          customer_complete_name: customer.complete_name,
+          customer_cpf: customer.cpf,
+          pay_type: pm1.pay_type,
+          due_date: '01/08/2050'
+        },
+        additional_params:{address: 'Av. Brasil, nº999'}
+      }
+      post '/api/v1/charges', params: {
+        charge: {
+          company_token: company.token,
+          product_token: prod3.token, 
+          customer_complete_name: customer.complete_name,
+          customer_cpf: customer.cpf,
+          pay_type: pm1.pay_type,
+          due_date: '01/12/2050'
+        },
+        additional_params:{address: 'Av. Brasil, nº999'}
+      }
+      post '/api/v1/charges', params: {
+        charge: {
+          company_token: company.token,
+          product_token: prod2.token, 
+          customer_complete_name: customer.complete_name,
+          customer_cpf: customer.cpf,
+          pay_type: pm3.pay_type,
+          due_date: '01/08/2050'
+        },
+        additional_params:{cc_name: 'Fulano Cliente',cc_number: '5381579886310193', cc_cvv: '235'}
+      }
+
+      get '/api/v1/charges/search', params: {
+        pay_type: 'boleto',
+        due_date: '01/08/2050'
+      }
+      expect(response.status).to eq(200)
+      expect(response.content_type).to include('application/json')
+      parsed_body = JSON.parse(response.body)
+      expect(parsed_body.size).to eq(1)
+      expect(parsed_body.first['company_token']).to eq(company.token)  
+      expect(parsed_body.first['product_token']).to eq(prod1.token)  
+      expect(parsed_body.first['customer_complete_name']).to eq(customer.complete_name)  
+      expect(parsed_body.first['customer_cpf']).to eq(customer.cpf)  
+      expect(parsed_body.first['pay_type']).to eq(pm1.pay_type)
+    end
+  end 
 end

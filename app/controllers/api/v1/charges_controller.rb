@@ -12,6 +12,13 @@ class Api::V1::ChargesController < Api::V1::ApiController
       .as_json(except: %i[id created_at updated_at]), status: :created
   end
 
+  def search
+    @charges = Charge.all
+    @charges = @charges.where(due_date: params[:due_date]) if params.keys.include? "due_date"
+    @charges = @charges.where(pay_type: params[:pay_type]) if params.keys.include? "pay_type"
+    render json: @charges.as_json(except: %i[id created_at updated_at]), status: :ok
+  end
+
   private
   def set_product
     @product = Product.find_by!(token: params[:charge][:product_token])
