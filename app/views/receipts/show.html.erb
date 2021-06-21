@@ -1,0 +1,9 @@
+<h1> Recibo </h1>
+<dl>
+  <dt>Código de autenticação</dt>
+  <dd><%= @receipt.auth_code %></dd>
+  <dt>Data de vencimento</dt>
+  <dd><%=l @receipt.due_date %></dd>
+  <dd>Data de pagamento</dd>
+  <dd><%=l @receipt.pay_date %></dd>
+</dl>

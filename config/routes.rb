@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   devise_for :staffs
   devise_for :admins_paynow
+
   root 'home#index'
 
   resources :companies do
@@ -8,6 +9,7 @@ Rails.application.routes.draw do
     post 'reset_token'
     put 'request_suspension', on: :member
   end
+
   namespace :company do
     resources :products, only: %i[index show new create edit update destroy]
     resources :charges, only: %i[index update] do
@@ -15,7 +17,11 @@ Rails.application.routes.draw do
       get 'new_approve'
     end
   end
+
   resources :payment_methods
+  
+  resources :receipts, only: %i[show]
+
   namespace :staff do
     put 'block_staff'
     resources :payment_methods, only: %i[index show] do
@@ -24,10 +30,12 @@ Rails.application.routes.draw do
       resources :credit_cards, only: %i[new create edit update destroy]
     end
   end
+
   namespace :api do
     namespace :v1 do
       resources :customers, only: %i[index create]
       resources :charges, only: %i[create]
     end
   end
+
 end
