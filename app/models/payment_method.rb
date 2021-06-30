@@ -1,4 +1,5 @@
 class PaymentMethod < ApplicationRecord
+  enum pay_type: [:boleto, :credit_card, :pix]
   has_many :boletos
   has_many :pixes
   has_many :credit_cards

@@ -1,24 +1,7 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Aqui está apresentada uma possível solução para o projeto final da primeira etapa do TreinaDev6.
 
-Things you may want to cover:
+O projeto consiste em desenvolver uma ferramenta de pagamentos capaz de configurar os meios de pagamentos e registrar as cobranças referentes às vendas de empresas clientes.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Esta ferramenta, além de possuir funcionalidades acessíveis por front, também possui recursos de api, com endpoints para empresas clientes.

@@ -1,0 +1,13 @@
+---
+pt-BR:
+  activerecord:
+    models:
+      payment_method:
+        one: Meio de pagamento
+        other: Meios de pagamento
+    attributes:
+      payment_method:
+        pay_type: Tipo de pagamento
+        charging_fee: Taxa de cobrança
+        name: Nome
+        maximum_charge: Taxa máxima

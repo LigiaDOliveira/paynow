@@ -12,7 +12,7 @@ describe 'Admin registers payment methods' do
       fill_in 'Nome', with: 'Boleto bancário do banco laranja'
       fill_in 'Taxa de cobrança', with: 10
       fill_in 'Cobrança máxima', with: 100
-      fill_in 'Tipo', with: 'boleto'
+      select('boleto', from: 'Tipo')
       attach_file 'Ícone', './spec/files/icon_boleto.png'
       click_on 'Enviar'
       expect(current_path).to eq(payment_methods_path)
@@ -31,11 +31,12 @@ describe 'Admin registers payment methods' do
       fill_in 'Nome', with: ''
       fill_in 'Taxa de cobrança', with: ''
       fill_in 'Cobrança máxima', with: ''
-      fill_in 'Tipo', with: ''
+      # select('', from: 'Tipo')
       click_on 'Enviar'
   
       expect(page).to have_text('adm@paynow.com.br')
-      expect(page).to have_text('não pode ficar em branco', count: 4)
+      expect(page).to have_text('não pode ficar em branco', count: 3)
+      save_page
     end
   end
 
