@@ -18,5 +18,4 @@ class StaffController < ApplicationController
   def set_staff_to_block
     @staff_to_block = Staff.find(params[:format])
   end
-
 end

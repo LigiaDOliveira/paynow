@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Staff registers their company' do
-  let(:adm){Staff.create!(email: 'adm@codeplay.com.br', password: '123456')}
+  let(:adm) { Staff.create!(email: 'adm@codeplay.com.br', password: '123456') }
   context 'with admin staff logged in' do
     it 'successfully' do
       login_as adm
@@ -24,7 +24,6 @@ describe 'Staff registers their company' do
     end
 
     xit 'email domain of company cannot be different from email domain of staff' do
-      
     end
   end
 end

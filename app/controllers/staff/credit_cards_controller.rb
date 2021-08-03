@@ -1,4 +1,4 @@
-class Staff::CreditCardsController < ActionController::Base
+class Staff::CreditCardsController < ApplicationController
   before_action :authenticate_staff!
   before_action :set_payment_method, only: %i[new create edit update destroy]
   before_action :set_company, only: %i[new create]
@@ -6,23 +6,27 @@ class Staff::CreditCardsController < ActionController::Base
 
   def new
     return redirect_to [:staff, @payment_method] if credit_card_exists
+
     @credit_card = CreditCard.new
   end
-  
+
   def create
     @credit_card = CreditCard.new(credit_card_params)
     @credit_card.payment_method = @payment_method
     @credit_card.company = @company
-    return render :new, error:'Não foi possível fazer configuração' unless @credit_card.save!
+    return render :new, error: 'Não foi possível fazer configuração' unless @credit_card.save!
+
     redirect_to [:staff, @payment_method], notice: 'Meio de pagamento configurado com sucesso'
   end
 
-  def edit
-
-  end
+  def edit; end
 
   def update
-    return render :edit, error: 'Não foi possível atualizar configuração' unless  @credit_card.update( credit_card_params)
+    unless @credit_card.update(credit_card_params)
+      return render :edit,
+                    error: 'Não foi possível atualizar configuração'
+    end
+
     redirect_to [:staff, @payment_method], notice: 'Configuração de meio de pagamento editada com sucesso'
   end
 
@@ -32,6 +36,7 @@ class Staff::CreditCardsController < ActionController::Base
   end
 
   private
+
   def credit_card_params
     params
       .require(:credit_card)
@@ -39,7 +44,7 @@ class Staff::CreditCardsController < ActionController::Base
   end
 
   def set_credit_card
-     @credit_card = CreditCard.find(params[:id])
+    @credit_card = CreditCard.find(params[:id])
   end
 
   def set_company
@@ -51,7 +56,8 @@ class Staff::CreditCardsController < ActionController::Base
   end
 
   def credit_card_exists
-    return true if @payment_method.credit_cards.find{|credit_card| credit_card.company == @company}
+    return true if @payment_method.credit_cards.find { |credit_card| credit_card.company == @company }
+
     false
   end
 end

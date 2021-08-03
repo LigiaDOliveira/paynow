@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_30_193645) do
+ActiveRecord::Schema.define(version: 2021_08_03_150724) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 2021_06_30_193645) do
     t.decimal "discount_value"
     t.date "due_date"
     t.decimal "original_value"
-    t.string "pay_type"
+    t.integer "pay_type"
     t.string "product_token"
     t.string "status", default: "pendente"
     t.string "token"

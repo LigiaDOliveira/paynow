@@ -16,7 +16,7 @@ describe 'Paynow admin account management' do
       expect(page).to_not have_link('Funcionário Paynow')
       expect(page).to have_link('Sair')
     end
-  
+
     it 'and the email is invalid' do
       visit root_path
       click_on 'Funcionário Paynow'
@@ -29,7 +29,7 @@ describe 'Paynow admin account management' do
       expect(page).to have_link('Funcionário Paynow')
       expect(page).to_not have_link('Sair')
     end
-  
+
     it 'without valid field' do
       visit root_path
       click_on 'Funcionário Paynow'
@@ -44,7 +44,7 @@ describe 'Paynow admin account management' do
       expect(page).to have_link('Funcionário Paynow')
       expect(page).to_not have_link('Sair')
     end
-  
+
     it 'password does not match confirmation' do
       visit root_path
       click_on 'Funcionário Paynow'
@@ -59,9 +59,9 @@ describe 'Paynow admin account management' do
       expect(page).to have_link('Funcionário Paynow')
       expect(page).to_not have_link('Sair')
     end
-  
+
     it 'with email not unique' do
-      adm = AdminPaynow.create!(email: 'adm@paynow.com.br',password: '123456')
+      adm = AdminPaynow.create!(email: 'adm@paynow.com.br', password: '123456')
       visit root_path
       click_on 'Funcionário Paynow'
       click_on 'Criar conta'
@@ -79,7 +79,7 @@ describe 'Paynow admin account management' do
 
   context 'sign in' do
     it 'successfully' do
-      admin = AdminPaynow.create!(email: 'adm@paynow.com.br',password: '123456')
+      admin = AdminPaynow.create!(email: 'adm@paynow.com.br', password: '123456')
       visit root_path
       click_on 'Funcionário Paynow'
       fill_in 'Email', with: 'adm@paynow.com.br'
@@ -93,7 +93,7 @@ describe 'Paynow admin account management' do
     end
 
     it 'wrong password' do
-      admin = AdminPaynow.create!(email: 'adm@paynow.com.br',password: '123456')
+      admin = AdminPaynow.create!(email: 'adm@paynow.com.br', password: '123456')
       visit root_path
       click_on 'Funcionário Paynow'
       fill_in 'Email', with: 'adm@paynow.com.br'
@@ -106,7 +106,7 @@ describe 'Paynow admin account management' do
     end
 
     it 'unregistered account' do
-      admin = AdminPaynow.create!(email: 'adm@paynow.com.br',password: '123456')
+      admin = AdminPaynow.create!(email: 'adm@paynow.com.br', password: '123456')
       visit root_path
       click_on 'Funcionário Paynow'
       fill_in 'Email', with: 'adm2@paynow.com.br'
@@ -122,7 +122,7 @@ describe 'Paynow admin account management' do
 
   context 'logout' do
     it 'successfully' do
-      admin = AdminPaynow.create!(email: 'adm@paynow.com.br',password: '123456')
+      admin = AdminPaynow.create!(email: 'adm@paynow.com.br', password: '123456')
       login_as admin, scope: :admin_paynow
       visit root_path
       click_on 'Sair'

@@ -1,21 +1,29 @@
 require 'rails_helper'
 
 describe 'Staff account management' do
-  let(:company){Company.create!(corporate_name: 'Codeplay',
-                                cnpj:'11.111.111/0001-00', 
-                                email:'email@codeplay.com.br',
-                                address: 'Rua dos Bobos, nº 0',
-                                token: 'abcdefghij0123456789')}
-  let(:adm){Staff.create!(email: 'adm@codeplay.com.br',
-                          password: '123456',
-                          admin: true, company: company, token: company.token)}
-  let(:reg){Staff.create!(email: 'reg@codeplay.com.br',
-                          password: '123456',
-                          admin: false, company: company, token: company.token)}
-  let(:blocked_reg){Staff.create!(email: 'blocked_reg@codeplay.com.br',
-                          password: '123456',
-                          admin: false,staff_active: false, company: company, token: company.token)}
-  
+  let(:company) do
+    Company.create!(corporate_name: 'Codeplay',
+                    cnpj: '11.111.111/0001-00',
+                    email: 'email@codeplay.com.br',
+                    address: 'Rua dos Bobos, nº 0',
+                    token: 'abcdefghij0123456789')
+  end
+  let(:adm) do
+    Staff.create!(email: 'adm@codeplay.com.br',
+                  password: '123456',
+                  admin: true, company: company, token: company.token)
+  end
+  let(:reg) do
+    Staff.create!(email: 'reg@codeplay.com.br',
+                  password: '123456',
+                  admin: false, company: company, token: company.token)
+  end
+  let(:blocked_reg) do
+    Staff.create!(email: 'blocked_reg@codeplay.com.br',
+                  password: '123456',
+                  admin: false, staff_active: false, company: company, token: company.token)
+  end
+
   context 'registration as admin' do
     it 'with email and password' do
       visit root_path
@@ -40,7 +48,7 @@ describe 'Staff account management' do
       expect(page).to have_text('email@codeplay.com.br')
       expect(page).to have_text('Rua dos Bobos, nº 0')
     end
-  
+
     it 'and the email is invalid' do
       visit root_path
       click_on 'Registrar-me'
@@ -52,7 +60,7 @@ describe 'Staff account management' do
       expect(page).to have_link('Registrar-me')
       expect(page).to_not have_link('Sair')
     end
-  
+
     it 'without valid field' do
       visit root_path
       click_on 'Registrar-me'
@@ -66,7 +74,7 @@ describe 'Staff account management' do
       expect(page).to have_link('Registrar-me')
       expect(page).to_not have_link('Sair')
     end
-  
+
     it 'password does not match confirmation' do
       visit root_path
       click_on 'Registrar-me'
@@ -80,9 +88,9 @@ describe 'Staff account management' do
       expect(page).to have_link('Registrar-me')
       expect(page).to_not have_link('Sair')
     end
-  
+
     it 'with email not unique' do
-      adm = Staff.create!(email: 'adm@codeplay.com.br',password: '123456')
+      adm = Staff.create!(email: 'adm@codeplay.com.br', password: '123456')
       visit root_path
       click_on 'Registrar-me'
       fill_in 'Email', with: 'adm@codeplay.com.br'
@@ -188,7 +196,7 @@ describe 'Staff account management' do
       expect(page).to have_text('Permissão: Comum')
       expect(page).to have_text('Status: Ativo')
     end
-    
+
     it 'unless logged in as regular staff because cannot see link' do
       adm
       login_as reg

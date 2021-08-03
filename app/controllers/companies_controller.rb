@@ -44,12 +44,16 @@ class CompaniesController < ApplicationController
       redirect_to @company, notice: 'Token resetado com sucesso!'
     else
       redirect_to @company, alert: 'Permissão negada'
-    end 
+    end
   end
 
   def my_staff
     @company = Company.find(params[:id])
-    return redirect_to root_path, alert: 'Permissão negada' unless current_staff.admin? && current_staff.company == @company
+    unless current_staff.admin? && current_staff.company == @company
+      return redirect_to root_path,
+                         alert: 'Permissão negada'
+    end
+
     @staffs = @company.staffs.all
   end
 
@@ -63,7 +67,7 @@ class CompaniesController < ApplicationController
 
   def destroy
     @company = Company.find(params[:id])
-    if  @company.suspension_required? && @company.suspension_required_by_id == current_admin_paynow.id
+    if @company.suspension_required? && @company.suspension_required_by_id == current_admin_paynow.id
       redirect_to companies_path, alert: 'Permissão negada'
     else
       @company.destroy
@@ -72,14 +76,15 @@ class CompaniesController < ApplicationController
   end
 
   private
+
   def company_params
     params
       .require(:company)
-      .permit(:corporate_name,:email,:cnpj,:address)
+      .permit(:corporate_name, :email, :cnpj, :address)
   end
 
   def generate_token
     charset = Array('A'..'Z') + Array('a'..'z') + Array('0'..'9')
-    Array.new(20) {charset.sample}.join
+    Array.new(20) { charset.sample }.join
   end
 end

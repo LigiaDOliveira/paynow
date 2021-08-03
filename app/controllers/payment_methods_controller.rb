@@ -45,6 +45,6 @@ class PaymentMethodsController < ApplicationController
   def payment_method_params
     params
       .require(:payment_method)
-      .permit(:name,:charging_fee,:maximum_charge,:pay_type,:icon)
+      .permit(:name, :charging_fee, :maximum_charge, :pay_type, :icon)
   end
 end

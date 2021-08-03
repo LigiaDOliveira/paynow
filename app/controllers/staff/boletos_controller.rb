@@ -1,4 +1,4 @@
-class Staff::BoletosController < ActionController::Base
+class Staff::BoletosController < ApplicationController
   before_action :authenticate_staff!
   before_action :set_payment_method, only: %i[new create edit update destroy]
   before_action :set_company, only: %i[new create]
@@ -6,6 +6,7 @@ class Staff::BoletosController < ActionController::Base
 
   def new
     return redirect_to [:staff, @payment_method] if boleto_exists
+
     @boleto = Boleto.new
   end
 
@@ -13,16 +14,16 @@ class Staff::BoletosController < ActionController::Base
     @boleto = Boleto.new(boleto_params)
     @boleto.payment_method = @payment_method
     @boleto.company = @company
-    return render :new, error:'Não foi possível fazer configuração' unless @boleto.save!
+    return render :new, error: 'Não foi possível fazer configuração' unless @boleto.save!
+
     redirect_to [:staff, @payment_method], notice: 'Meio de pagamento configurado com sucesso'
   end
 
-  def edit
-
-  end
+  def edit; end
 
   def update
     return render :edit, error: 'Não foi possível atualizar configuração' unless @boleto.update(boleto_params)
+
     redirect_to [:staff, @payment_method], notice: 'Configuração de meio de pagamento editada com sucesso'
   end
 
@@ -32,10 +33,11 @@ class Staff::BoletosController < ActionController::Base
   end
 
   private
+
   def boleto_params
     params
       .require(:boleto)
-      .permit(:bank_code,:agency,:account)
+      .permit(:bank_code, :agency, :account)
   end
 
   def set_boleto
@@ -51,7 +53,8 @@ class Staff::BoletosController < ActionController::Base
   end
 
   def boleto_exists
-    return true if @payment_method.boletos.find{|boleto| boleto.company == @company}
+    return true if @payment_method.boletos.find { |boleto| boleto.company == @company }
+
     false
   end
 end

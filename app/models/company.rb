@@ -9,7 +9,7 @@ class Company < ApplicationRecord
   has_many :pixes, dependent: :destroy
   has_many :products, dependent: :destroy
   has_many :staffs, dependent: :destroy
-  validates :email, email: true 
+  validates :email, email: true
 
   def requested_suspension_message
     "Suspensão da empresa #{corporate_name} (Token: #{token}) solicitada"

@@ -4,7 +4,7 @@
   <dd><%= number_to_percentage @payment_method.charging_fee, precision:2, significant: true, separator: ',', delimiter:'.' %></dd>
   <dt>Taxa máxima cobrável</dt>
   <dd><%= number_to_currency @payment_method.maximum_charge,unit:'R$ ',separator:',',delimiter:'.' %></dd>
-  <dt>Tipo <%= @payment_method.pay_type %></dd>
+  <dt>Tipo <%= PaymentMethod.human_enum_name(:pay_type, @payment_method.pay_type.to_sym) %></dd>
 </dl>
 <%= link_to 'Voltar', payment_methods_path %>
 <%= link_to 'Editar', edit_payment_method_path(@payment_method) %>

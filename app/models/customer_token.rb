@@ -5,7 +5,6 @@ class CustomerToken < ApplicationRecord
   belongs_to :company
 
   def generate_token
-    self.token = Random.new(customer.generate_seed).alphanumeric(20) 
+    self.token = Random.new(customer.generate_seed).alphanumeric(20)
   end
-
 end

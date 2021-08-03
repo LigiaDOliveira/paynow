@@ -16,6 +16,6 @@
   <%= f.label :maximum_charge, 'Cobrança máxima'%>
   <%= f.number_field :maximum_charge %>
   <%= f.label :pay_type, 'Tipo' %>
-  <%= f.select :pay_type, [:boleto, :credit_card, :pix] %>
+  <%= f.select :pay_type,  PaymentMethod.pay_types.keys.collect { |pay_type| [PaymentMethod.human_enum_name(:pay_type, pay_type), pay_type] } %>
   <%= f.submit button_text %>
 <% end %>

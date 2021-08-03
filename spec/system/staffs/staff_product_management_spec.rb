@@ -1,28 +1,38 @@
 require 'rails_helper'
 
 describe 'Product Management' do
-  let(:company){Company.create!(corporate_name: 'Codeplay',
-                                cnpj:'11.111.111/0001-00', 
-                                email:'email@codeplay.com.br',
-                                address: 'Rua dos Bobos, nº 0',
-                                token: 'abcdefghij0123456789')}
-  let(:company2){Company.create!(corporate_name: 'Prupru',
-                                cnpj:'22.222.222/9992-99', 
-                                email:'email@prupru.com.br',
-                                address: 'Rua dos Espertos, nº 9',
-                                token: 'klmnopqrst0123456789')}
-  let(:adm){Staff.create!(email: 'adm@codeplay.com.br',
-                          password: '123456',
-                          admin: true, company: company, token: company.token)}
-  let(:adm2){Staff.create!(email: 'adm@prupru.com.br',
-                          password: '123456',
-                          admin: true, company: company2, token: company2.token)}        
-  let(:reg){Staff.create!(email: 'regular@codeplay.com.br',
-                          password: '123456',
-                          admin: false, company: company, token: company.token)}
-  let(:prod1){Product.create!(name: 'Curso 1', price: 100, company: company)}
-  let(:prod2){Product.create!(name: 'Curso 2', price: 99, sale_discount: 5, company: company)}
-  let(:prod3){Product.create!(name: 'Curso 3', price: 98, sale_discount: 3, company: company)}
+  let(:company) do
+    Company.create!(corporate_name: 'Codeplay',
+                    cnpj: '11.111.111/0001-00',
+                    email: 'email@codeplay.com.br',
+                    address: 'Rua dos Bobos, nº 0',
+                    token: 'abcdefghij0123456789')
+  end
+  let(:company2) do
+    Company.create!(corporate_name: 'Prupru',
+                    cnpj: '22.222.222/9992-99',
+                    email: 'email@prupru.com.br',
+                    address: 'Rua dos Espertos, nº 9',
+                    token: 'klmnopqrst0123456789')
+  end
+  let(:adm) do
+    Staff.create!(email: 'adm@codeplay.com.br',
+                  password: '123456',
+                  admin: true, company: company, token: company.token)
+  end
+  let(:adm2) do
+    Staff.create!(email: 'adm@prupru.com.br',
+                  password: '123456',
+                  admin: true, company: company2, token: company2.token)
+  end
+  let(:reg) do
+    Staff.create!(email: 'regular@codeplay.com.br',
+                  password: '123456',
+                  admin: false, company: company, token: company.token)
+  end
+  let(:prod1) { Product.create!(name: 'Curso 1', price: 100, company: company) }
+  let(:prod2) { Product.create!(name: 'Curso 2', price: 99, sale_discount: 5, company: company) }
+  let(:prod3) { Product.create!(name: 'Curso 3', price: 98, sale_discount: 3, company: company) }
 
   context 'Staff can see product list' do
     it 'successfully' do
@@ -81,8 +91,8 @@ describe 'Product Management' do
   end
 
   context 'Staff can click on product and see details' do
-    it 'successfully' do 
-      login_as adm 
+    it 'successfully' do
+      login_as adm
       prod1
       prod2
       prod3

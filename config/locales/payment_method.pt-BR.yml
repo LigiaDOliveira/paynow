@@ -7,7 +7,11 @@ pt-BR:
         other: Meios de pagamento
     attributes:
       payment_method:
-        pay_type: Tipo de pagamento
         charging_fee: Taxa de cobrança
-        name: Nome
         maximum_charge: Taxa máxima
+        name: Nome
+        pay_type:
+          boleto: Boleto
+          credit_card: Cartão de Crédito
+          pix: PIX
+    

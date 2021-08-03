@@ -8,11 +8,11 @@ class Company::ChargesController < ApplicationController
   def update
     @charge = Charge.find(params[:id])
     @charge.status = params[:charge][:status]
-    if @charge.history.nil?
-      @charge.history = params_history
-    else
-      @charge.history = @charge.history + "\n\n" + params_history
-    end
+    @charge.history = if @charge.history.nil?
+                        params_history
+                      else
+                        "#{@charge.history}\n\n#{params_history}"
+                      end
     @charge.save
     redirect_to company_charges_path
   end
@@ -28,16 +28,17 @@ class Company::ChargesController < ApplicationController
   end
 
   private
+
   def set_company
     @company = current_staff.company
   end
 
   def params_history
-    unless params[:charge][:status].eql?('aprovada')
-      "Data da tentativa de pagamento: #{params[:charge][:denied_date]}\n"\
-      "Código de retorno: #{params[:charge][:return_code]}"
-    else
+    if params[:charge][:status].eql?('aprovada')
       "Aprovada em #{params[:charge][:approved_date]}"
+    else
+      "Data da tentativa de pagamento: #{params[:charge][:denied_date]}\n"\
+        "Código de retorno: #{params[:charge][:return_code]}"
     end
   end
 end

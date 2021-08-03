@@ -1,17 +1,23 @@
 require 'rails_helper'
 
 describe 'Staff admin resets company token' do
-  let(:company){Company.create!(corporate_name: 'Codeplay',
-                                cnpj:'11.111.111/0001-00', 
-                                email:'email@codeplay.com.br',
-                                address: 'Rua dos Bobos, nº 0',
-                                token: 'abcdefghij0123456789')}
-  let(:adm){Staff.create!(email: 'adm@codeplay.com.br',
-                          password: '123456',
-                          admin: true, company: company, token: company.token)}
-  let(:reg){Staff.create!(email: 'regular@codeplay.com.br',
-                          password: '123456',
-                          admin: false, company: company, token: company.token)}
+  let(:company) do
+    Company.create!(corporate_name: 'Codeplay',
+                    cnpj: '11.111.111/0001-00',
+                    email: 'email@codeplay.com.br',
+                    address: 'Rua dos Bobos, nº 0',
+                    token: 'abcdefghij0123456789')
+  end
+  let(:adm) do
+    Staff.create!(email: 'adm@codeplay.com.br',
+                  password: '123456',
+                  admin: true, company: company, token: company.token)
+  end
+  let(:reg) do
+    Staff.create!(email: 'regular@codeplay.com.br',
+                  password: '123456',
+                  admin: false, company: company, token: company.token)
+  end
   it 'successfully' do
     login_as adm
     visit root_path

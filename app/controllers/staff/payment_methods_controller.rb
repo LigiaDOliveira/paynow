@@ -1,4 +1,4 @@
-class Staff::PaymentMethodsController < ActionController::Base
+class Staff::PaymentMethodsController < ApplicationController
   before_action :authenticate_staff!
   before_action :set_payment_method, only: %i[show]
 
@@ -6,12 +6,11 @@ class Staff::PaymentMethodsController < ActionController::Base
     @payment_methods = PaymentMethod.all
   end
 
-  def show
-  end
-  
+  def show; end
+
   private
+
   def set_payment_method
     @payment_method = PaymentMethod.find(params[:id])
   end
-
 end
