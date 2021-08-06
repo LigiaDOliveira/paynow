@@ -70,7 +70,7 @@ describe 'visitor sees receit' do
       pay_date: '22/06/2021',
       due_date: '01/12/2050'
     )
-    receipt2 = Receipt.create!(
+    Receipt.create!(
       auth_code: 'qwertyuiop9876543211',
       pay_date: '23/06/2021',
       due_date: '02/12/2050'

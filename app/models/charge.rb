@@ -11,13 +11,13 @@ class Charge < ApplicationRecord
   end
 
   def create_receipt
-    if status.eql?('aprovada')
-      Receipt.create!(
-        auth_code: generate_token,
-        pay_date: history[-10, 10],
-        due_date: due_date
-      )
-    end
+    return unless status.eql?('aprovada')
+
+    Receipt.create!(
+      auth_code: generate_token,
+      pay_date: history[-10, 10],
+      due_date: due_date
+    )
   end
 
   def generate_token

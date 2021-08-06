@@ -90,7 +90,7 @@ describe 'Staff account management' do
     end
 
     it 'with email not unique' do
-      adm = Staff.create!(email: 'adm@codeplay.com.br', password: '123456')
+      Staff.create!(email: 'adm@codeplay.com.br', password: '123456')
       visit root_path
       click_on 'Registrar-me'
       fill_in 'Email', with: 'adm@codeplay.com.br'

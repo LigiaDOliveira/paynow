@@ -64,7 +64,7 @@ describe 'Product Management' do
 
     it 'unless logged out' do
       company
-      prod1 = Product.create!(name: 'Curso 1', price: 100, company: company)
+      Product.create!(name: 'Curso 1', price: 100, company: company)
       visit company_products_path
       expect(page).to_not have_text('Curso 1')
       expect(page).to_not have_text('R$ 100,00')

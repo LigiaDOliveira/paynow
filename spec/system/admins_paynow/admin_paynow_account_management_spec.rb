@@ -61,7 +61,7 @@ describe 'Paynow admin account management' do
     end
 
     it 'with email not unique' do
-      adm = AdminPaynow.create!(email: 'adm@paynow.com.br', password: '123456')
+      AdminPaynow.create!(email: 'adm@paynow.com.br', password: '123456')
       visit root_path
       click_on 'Funcionário Paynow'
       click_on 'Criar conta'
@@ -79,7 +79,7 @@ describe 'Paynow admin account management' do
 
   context 'sign in' do
     it 'successfully' do
-      admin = AdminPaynow.create!(email: 'adm@paynow.com.br', password: '123456')
+      AdminPaynow.create!(email: 'adm@paynow.com.br', password: '123456')
       visit root_path
       click_on 'Funcionário Paynow'
       fill_in 'Email', with: 'adm@paynow.com.br'
@@ -93,7 +93,7 @@ describe 'Paynow admin account management' do
     end
 
     it 'wrong password' do
-      admin = AdminPaynow.create!(email: 'adm@paynow.com.br', password: '123456')
+      AdminPaynow.create!(email: 'adm@paynow.com.br', password: '123456')
       visit root_path
       click_on 'Funcionário Paynow'
       fill_in 'Email', with: 'adm@paynow.com.br'
@@ -106,7 +106,7 @@ describe 'Paynow admin account management' do
     end
 
     it 'unregistered account' do
-      admin = AdminPaynow.create!(email: 'adm@paynow.com.br', password: '123456')
+      AdminPaynow.create!(email: 'adm@paynow.com.br', password: '123456')
       visit root_path
       click_on 'Funcionário Paynow'
       fill_in 'Email', with: 'adm2@paynow.com.br'

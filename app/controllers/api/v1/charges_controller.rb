@@ -32,19 +32,28 @@ module Api
       end
 
       def additional_params_manager
-        if @charge.boleto? && !params[:additional_params].nil?
-          address = params.require(:additional_params).permit(:address)
-          @additional_params = "Endereço: #{address[:address]}"
-        elsif @charge.credit_card? && !params[:additional_params].nil?
-          cc_number = params.require(:additional_params).permit(:cc_number)
-          cc_name = params.require(:additional_params).permit(:cc_name)
-          cc_cvv = params.require(:additional_params).permit(:cc_cvv)
-          @additional_params = "Nº do cartão: #{cc_number[:cc_number]}\n"\
-                               "Nome no cartão: #{cc_name[:cc_name]}\n"\
-                               "Código de segurança: #{cc_cvv[:cc_cvv]}"
+        if @charge.boleto? && params[:additional_params].present?
+          additional_params_boleto
+        elsif @charge.credit_card? && params[:additional_params].present?
+          additional_params_credit_card
         elsif @charge.pix?
           @additional_params = 'Nenhum'
         end
+      end
+
+      def additional_params_boleto
+        address = params.require(:additional_params).permit(:address)
+        @additional_params = "Endereço: #{address[:address]}"
+      end
+
+      def additional_params_credit_card
+        cc_number = params.require(:additional_params).permit(:cc_number)
+        cc_name = params.require(:additional_params).permit(:cc_name)
+        cc_cvv = params.require(:additional_params).permit(:cc_cvv)
+        @additional_params =
+          "Nº do cartão: #{cc_number[:cc_number]}\n"\
+          "Nome no cartão: #{cc_name[:cc_name]}\n"\
+          "Código de segurança: #{cc_cvv[:cc_cvv]}"
       end
 
       def charge_params
