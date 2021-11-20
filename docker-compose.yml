@@ -1,0 +1,11 @@
+version: '3'
+services:
+  web:
+    build: .
+    volumes: 
+      - .:/opt/paynow
+    ports:
+      - 3000:3000
+    tty: true
+    stdin_open: true
+    command: rails 
