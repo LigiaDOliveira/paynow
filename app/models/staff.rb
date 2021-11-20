@@ -24,6 +24,10 @@ class Staff < ApplicationRecord
     super && staff_active
   end
 
+  def allowed_on?(other_company)
+    company == other_company && admin?
+  end
+
   def inactive_message
     'Esta conta foi bloqueada pelo administrador'
   end

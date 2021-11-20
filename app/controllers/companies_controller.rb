@@ -31,12 +31,10 @@ class CompaniesController < ApplicationController
   def reset_token
     @staff = current_staff
     @company = Company.find(params[:company_id])
-    if @staff.company == @company && @staff.admin?
-      set_new_token
-      redirect_to @company, notice: 'Token resetado com sucesso!'
-    else
-      redirect_to @company, alert: 'Permissão negada'
-    end
+    return redirect_to @company, alert: 'Permissão negada' unless @staff&.allowed_on? @company
+
+    set_new_token
+    redirect_to @company, notice: 'Token resetado com sucesso!'
   end
 
   def my_staff

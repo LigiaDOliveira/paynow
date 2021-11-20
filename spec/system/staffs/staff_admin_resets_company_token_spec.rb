@@ -19,16 +19,20 @@ describe 'Staff admin resets company token' do
                   admin: false, company: company, token: company.token)
   end
   it 'successfully' do
-    login_as adm
+    login_as adm, scope: :staff
     visit root_path
     click_on 'Minha empresa'
-    click_on 'Resetar token'
+    allow_any_instance_of(CompaniesController).to receive(:generate_token).and_return('um novo token')
+
+    click_on 'Resetar token da empresa'
+
     expect(page).to_not have_text('abcdefghij0123456789')
+    expect(page).to have_text('um novo token')
   end
 
   it 'and regular staff cannot see link' do
     adm
-    login_as reg
+    login_as reg, scope: :staff
     visit root_path
     click_on 'Minha empresa'
     expect(page).to_not have_link('Resetar token')
@@ -39,14 +43,15 @@ describe 'Staff admin resets company token' do
     expect(page).to have_text('abcdefghij0123456789')
   end
 
-  xit 'and regular staff cannot force reset token' do
+  it 'and regular staff cannot force reset token' do
     adm
-    login_as reg
+    login_as reg, scope: :staff
     visit root_path
     click_on 'Minha empresa'
     expect(page).to_not have_link('Resetar token')
-    request company_reset_token_path(company)
-    expect(page).to have_text('Permissão negada')
+
+    post company_reset_token_path(company)
+
     expect(page).to have_text('Codeplay')
     expect(page).to have_text('11.111.111/0001-00')
     expect(page).to have_text('email@codeplay.com.br')

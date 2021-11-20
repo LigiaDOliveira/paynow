@@ -8,6 +8,7 @@ gem 'rails', '~> 6.1.3', '>= 6.1.3.2'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'devise'
 gem 'jbuilder', '~> 2.7'
+gem 'pry'
 gem 'puma', '~> 5.0'
 gem 'sass-rails', '>= 6'
 gem 'sqlite3', '~> 1.4'
