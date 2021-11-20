@@ -31,7 +31,7 @@ class CompaniesController < ApplicationController
   def reset_token
     @staff = current_staff
     @company = Company.find(params[:company_id])
-    return redirect_to @company, alert: 'Permissão negada' unless @staff&.allowed_on? @company
+    return permission_denied(@company) unless @staff&.allowed_on? @company
 
     set_new_token
     redirect_to @company, notice: 'Token resetado com sucesso!'
@@ -39,30 +39,23 @@ class CompaniesController < ApplicationController
 
   def my_staff
     @company = Company.find(params[:id])
-    unless current_staff.admin? && current_staff.company == @company
-      return redirect_to root_path,
-                         alert: 'Permissão negada'
-    end
+    return permission_denied(root_path) unless current_staff&.allowed_on? @company
 
     @staffs = @company.staffs.all
   end
 
   def request_suspension
     @company = Company.find(params[:id])
-    @company.suspension_required = true
-    @company.suspension_required_by_id = current_admin_paynow.id
-    @company.save
+    update_suspension_required
     redirect_to companies_path, notice: 'Suspensão solicitada com sucesso'
   end
 
   def destroy
     @company = Company.find(params[:id])
-    if @company.suspension_required? && @company.suspension_required_by_id == current_admin_paynow.id
-      redirect_to companies_path, alert: 'Permissão negada'
-    else
-      @company.destroy
-      redirect_to companies_path, notice: 'Empresa desligada'
-    end
+    permission_denied(companies_path) unless @company&.destroy_allowed? current_admin_paynow
+
+    @company.destroy
+    redirect_to companies_path, notice: 'Empresa desligada'
   end
 
   private
@@ -78,13 +71,24 @@ class CompaniesController < ApplicationController
     Array.new(20) { charset.sample }.join
   end
 
+  def permission_denied(path)
+    redirect_to path, alert: 'Permissão negada'
+  end
+
   def set_new_token
-    @company_staff = @company.staffs
     @company.token = generate_token
-    @company_staff.each do |staff|
-      staff.token = @company.token
-      staff.save!
-    end
+    @company.staffs.each { |staff| staff.update! token: @company.token }
     @company.save!
+  end
+
+  def update_suspension_required_hash
+    {
+      suspension_required: true,
+      suspension_required_by_id: current_admin_paynow.id
+    }
+  end
+
+  def update_suspension_required
+    @company.update!(**update_suspension_required_hash)
   end
 end

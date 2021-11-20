@@ -11,7 +11,15 @@ class Company < ApplicationRecord
   has_many :staffs, dependent: :destroy
   validates :email, email: true
 
+  def destroy_allowed?(user)
+    suspension_required? && !suspension_required_by.eql?(user)
+  end
+
   def requested_suspension_message
     "Suspensão da empresa #{corporate_name} (Token: #{token}) solicitada"
+  end
+
+  def suspension_required_by
+    Staff.find suspension_required_by_id
   end
 end
