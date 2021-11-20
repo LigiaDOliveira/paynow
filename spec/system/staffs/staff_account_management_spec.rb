@@ -61,6 +61,21 @@ describe 'Staff account management' do
       expect(page).to_not have_link('Sair')
     end
 
+    it 'and the email raises error' do
+      visit root_path
+      click_on 'Registrar-me'
+      fill_in 'Email', with: 'anything'
+      fill_in 'Senha', with: '123456'
+      fill_in 'Confirmação de senha', with: '123456'
+      allow(Mail::Address).to receive(:new).and_return(StandardError)
+
+      click_on 'Criar conta'
+
+      expect(page).to have_text('Email inválido')
+      expect(page).to have_link('Registrar-me')
+      expect(page).to_not have_link('Sair')
+    end
+
     it 'without valid field' do
       visit root_path
       click_on 'Registrar-me'

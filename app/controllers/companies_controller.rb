@@ -70,7 +70,7 @@ class CompaniesController < ApplicationController
     redirect_to path, alert: 'Permissão negada'
   end
 
-  def set_adm    
+  def set_adm
     @staff_adm&.update!(set_adm_hash)
   end
 

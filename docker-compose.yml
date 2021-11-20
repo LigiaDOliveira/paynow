@@ -8,4 +8,4 @@ services:
       - 3000:3000
     tty: true
     stdin_open: true
-    command: rails 
+    command: rails s -b 0.0.0.0

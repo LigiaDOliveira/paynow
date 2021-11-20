@@ -1,23 +1,32 @@
 require 'mail'
 class EmailValidator < ActiveModel::EachValidator
+  INVALID_DOMAINS = File.open('./app/validators/invalid_domain_names.txt').read.split("\n").freeze
+
   def validate_each(record, attribute, value)
-    begin
-      @m = Mail::Address.new(value)
-      # We must check that value contains a domain, the domain has at least
-      # one '.' and that value is an email address
-      r = @m.domain.present? && @m.domain.match('\.') && @m.address == value
-    rescue StandardError
-      r = false
-    end
-    # record.errors.add(attribute, message: "is invalid") unless r
-    record.errors.add(attribute, message: 'inválido') if r && invalid_account
+    @value = value
+    @email = Mail::Address.new(value)
+    record.errors.add(attribute, message: 'inválido') unless valid?
+    valid?
   end
 
-  def invalid_account
-    invalid_domains.include? @m.domain
+  private
+
+  def conditions
+    [
+      @email.domain.present?,
+      @email.domain.match('\.'),
+      @email.address == @value,
+      valid_domain?
+    ]
   end
 
-  def invalid_domains
-    File.open('./app/validators/invalid_domain_names.txt').read.split("\n")
+  def valid?
+    conditions.all?
+  rescue StandardError
+    false
+  end
+
+  def valid_domain?
+    INVALID_DOMAINS.exclude? @email.domain
   end
 end
