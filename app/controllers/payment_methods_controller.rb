@@ -14,11 +14,9 @@ class PaymentMethodsController < ApplicationController
 
   def create
     @payment_method = PaymentMethod.new(payment_method_params)
-    if @payment_method.save
-      redirect_to payment_methods_path
-    else
-      render :new
-    end
+    return render :new unless @payment_method.save
+
+    redirect_to payment_methods_path
   end
 
   def edit
@@ -27,11 +25,9 @@ class PaymentMethodsController < ApplicationController
 
   def update
     @payment_method = PaymentMethod.find(params[:id])
-    if @payment_method.update(payment_method_params)
-      redirect_to @payment_method, notice: 'Meio de pagamento editado com sucesso'
-    else
-      render :edit
-    end
+    return render :edit unless @payment_method.update(payment_method_params)
+
+    redirect_to @payment_method, notice: 'Meio de pagamento editado com sucesso'
   end
 
   def destroy
