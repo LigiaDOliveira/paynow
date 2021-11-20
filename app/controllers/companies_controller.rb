@@ -15,13 +15,8 @@ class CompaniesController < ApplicationController
     @staff_adm = current_staff
     return render :new unless @company.save
 
-    @company.token = generate_token
-    @staff_adm.token = @company.token
-    @staff_adm.admin = true
-    @staff_adm.company = @company
-    @staff_adm.save!
-    @company.save!
-    redirect_to @company
+    set_new_token
+    redirect_to @company, notice: 'Empresa criada com sucesso'
   end
 
   def show
@@ -75,10 +70,27 @@ class CompaniesController < ApplicationController
     redirect_to path, alert: 'Permissão negada'
   end
 
+  def set_adm    
+    @staff_adm&.update!(set_adm_hash)
+  end
+
+  def set_adm_hash
+    {
+      token: @company.token,
+      admin: true,
+      company: @company
+    }
+  end
+
   def set_new_token
     @company.token = generate_token
-    @company.staffs.each { |staff| staff.update! token: @company.token }
+    set_adm
+    set_staffs
     @company.save!
+  end
+
+  def set_staffs
+    @company.staffs.each { |staff| staff.update! token: @company.token }
   end
 
   def update_suspension_required_hash
